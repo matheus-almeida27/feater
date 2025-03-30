@@ -1,6 +1,6 @@
 <template>
 	<v-app>
-		authloyout
+		auth LAYOUT
 		<slot />
 	</v-app>
 </template>
