@@ -10,9 +10,9 @@ export default defineNuxtPlugin((app) => {
 			defaultTheme: "dark",
 		},
 		icons: {
-			defaultSet: "mdi", // default - only for display purposes
+			defaultSet: "mdi", 
 		},
-		// ... your configuration
+		
 	});
 	app.vueApp.use(vuetify);
 });
