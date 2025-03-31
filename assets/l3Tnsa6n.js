@@ -1,1 +1,0 @@
-import{_ as a,aA as o,v as r,A as s,B as l,aJ as f}from"./N855uQ9M.js";import{V as n}from"./CKySb41e.js";import"./CqDjB2uL.js";const d={};function u(e,t){return r(),o(n,null,{default:s(()=>[t[0]||(t[0]=l(" default layout ")),f(e.$slots,"default")]),_:3})}const i=a(d,[["render",u]]);export{i as default};
