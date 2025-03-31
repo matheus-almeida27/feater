@@ -7,6 +7,8 @@ export default defineNuxtConfig({
 			title: "Feater",
 			link: [{ rel: "icon", type: "image/png", href: "/feater.png" }],
 		},
+		baseURL: "/nuxt-github-pages/", // baseURL: '/<repository>/'
+		buildAssetsDir: "assets", // don't use "_" at the begining of the folder name to avoids nojkill conflict
 	},
 	compatibilityDate: "2024-11-01",
 	devtools: { enabled: true },
@@ -14,7 +16,7 @@ export default defineNuxtConfig({
 		transpile: ["vuetify"],
 	},
 	devServer: {
-		host: "192.168.100.110",
+		host: "192.168.0.123",
 		port: 3000,
 	},
 	modules: [
@@ -23,7 +25,7 @@ export default defineNuxtConfig({
 		"@nuxt/image",
 		"@nuxt/scripts",
 		"@pinia/nuxt",
-		'pinia-plugin-persistedstate/nuxt',
+		"pinia-plugin-persistedstate/nuxt",
 		(_options, nuxt) => {
 			nuxt.hooks.hook("vite:extendConfig", (config) => {
 				// @ts-expect-error
