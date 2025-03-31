@@ -11,8 +11,9 @@
 				md="6"
 				lg="4">
 				<v-card class="elevation-5 pa-4">
-					<v-card-title class="text-h4 font-weight-thin text-center">
-						{{ text?.header }}
+					<v-card-title class="text-h2 font-weight-thin text-center">
+						<!-- {{ text?.header }} -->
+						  AAAI CHAVINHUUUU
 					</v-card-title>
 					<v-row
 						no-gutters
@@ -22,7 +23,7 @@
 							@click="process = process === 'login' ? 'signup' : 'login'"
 							variant="text"
 							size="small"
-							>{{ text?.btn }} ttstts</v-btn
+							>{{ text?.btn }} </v-btn
 						>
 					</v-row>
 					<v-card-text>
