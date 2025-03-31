@@ -1,5 +1,7 @@
 <template>
-	<NuxtLayout> app.vue </NuxtLayout>
+	<NuxtLayout>
+		<NuxtPage />
+	</NuxtLayout>
 </template>
-<script lang="ts" setup>
-</script>
+<script lang="ts" setup></script>
+
