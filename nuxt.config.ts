@@ -7,7 +7,7 @@ export default defineNuxtConfig({
 			title: "Feater",
 			link: [{ rel: "icon", type: "image/png", href: "/feater.png" }],
 		},
-		baseURL: "/nuxt-github-pages/", // baseURL: '/<repository>/'
+		baseURL: "/feater/", // baseURL: '/<repository>/'
 		buildAssetsDir: "assets",
 	},
 	compatibilityDate: "2024-11-01",
