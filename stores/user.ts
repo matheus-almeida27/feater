@@ -7,6 +7,8 @@ export const useAuthStore = defineStore("auth", {
 	actions: {
 		setUser(user: any) {
 			this.user = user?.id || null;
+			localStorage.setItem("auth", JSON.stringify(this.user || ""));
 		},
 	},
+	persist: true,
 });
