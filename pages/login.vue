@@ -22,7 +22,7 @@
 							@click="process = process === 'login' ? 'signup' : 'login'"
 							variant="text"
 							size="small"
-							>{{ text?.btn }}</v-btn
+							>{{ text?.btn }} ttstts</v-btn
 						>
 					</v-row>
 					<v-card-text>
