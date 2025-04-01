@@ -4,6 +4,7 @@
 .nuxt
 .nitro
 .cache
+.bat
 dist
 
 # Node dependencies

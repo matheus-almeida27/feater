@@ -1,70 +1,69 @@
 <template>
 	<v-app>
 		<slot />
-		<v-layout
-			class="overflow-visible"
-			style="height: 56px">
-			<v-bottom-navigation
-				mandatory
-				@update:model-value="onClick"
-				v-model="value"
-				color="purple"
-				grow>
-				<v-btn :active="false">
-					<v-icon size="30">mdi-chat</v-icon>
-				</v-btn>
+		<v-bottom-navigation
+			fixed
+			mandatory
+			@update:model-value="onClick"
+			v-model="navigationValue"
+			color="purple"
+			grow>
+			<v-btn
+				:ripple="false"
+				:active="false">
+				<v-icon size="30">mdi-chat</v-icon>
+			</v-btn>
 
-				<v-btn
-					rounded
-					:active="false">
-					<v-img
-						width="30"
-						contain
-						:class="{ leaf: true, off: value != 1 }"
-						src="../public/feater.png"></v-img>
-				</v-btn>
+			<v-btn
+				:ripple="false"
+				rounded
+				:active="false">
+				<v-img
+					width="30"
+					contain
+					:class="{ leaf: true, off: navigationValue != 1 }"
+					src="../public/feater.png" />
+			</v-btn>
 
-				<v-btn
-					rounded
-					:active="false">
-					<v-icon size="30">mdi-account</v-icon>
-				</v-btn>
-			</v-bottom-navigation>
-		</v-layout>
+			<v-btn
+				:ripple="false"
+				rounded
+				:active="false">
+				<v-icon size="30">mdi-account</v-icon>
+			</v-btn>
+		</v-bottom-navigation>
 	</v-app>
 </template>
 
 <script lang="ts" setup>
-	const value = ref(1);
+const navigationValue = ref<number | null>(null);
+const router = useRouter();
 
-	const onClick = (value: any) => {
-		// 0 => MESSAGES
-		// 1 => FEATS / HOME
-		// 2 => PROFILE
+const routeMapping: Record<string, number> = {
+	messages: 0,
+	home: 1,
+	profile: 2,
+};
 
-		switch (value) {
-			case 0:
-				navigateTo("/messages");
-				break;
+watch(
+	() => router.currentRoute.value.name,
+	(route) => {
+		navigationValue.value = route ? routeMapping[route as string] ?? null : null;
+	},
+	{ immediate: true }
+);
 
-			case 1:
-				navigateTo("/home");
-				break;
-
-			case 2:
-				navigateTo("/profile");
-				break;
-
-			default:
-				break;
-		}
-	};
+const onClick = (value: number | null) => {
+	if (value === null) return;
+	const pathMapping = ["/messages", "/home", "/profile"];
+	if (pathMapping[value]) navigateTo(pathMapping[value]);
+};
 </script>
 
 <style scoped lang="scss">
-	.leaf {
-		&.off {
-			filter: grayscale(80%);
-		}
+.leaf {
+	&.off {
+		filter: grayscale(80%);
 	}
+}
 </style>
