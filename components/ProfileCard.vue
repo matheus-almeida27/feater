@@ -11,7 +11,7 @@
 				><v-icon class="mr-2">mdi-check</v-icon> Salvar</v-btn
 			>
 		</v-card-title>
-		<v-card-text>
+		<v-card-text class="pb-5">
 			<v-row
 				no-gutters
 				class="mb-4">
@@ -63,6 +63,15 @@
 					accept="image/*"
 					prepend-icon=""></v-file-input>
 			</v-row>
+			<!-- Nome do Usuário -->
+			<v-text-field
+				v-model="userFullName"
+				variant="solo"
+				label="Nome do Usuário"
+				class="mb-3"
+				hide-details
+				outlined
+				dense></v-text-field>
 			<!-- Biografia -->
 			<v-textarea
 				label="Biografia"
@@ -75,27 +84,26 @@
 			<v-select
 				v-model="selectedGenres"
 				:items="genres"
-				label="Selecione até 3 gêneros musicais"
+				label="Gêneros Musicais"
 				multiple
+				item-title="nome"
+				closable-chips
 				variant="solo"
 				chips
-				clearable
 				outlined
 				dense
 				:rules="[limitGenres]"></v-select>
-
 			<!-- Endereço -->
-			<v-text-field
-				label="Endereço"
-				variant="solo"
-				v-model="address"
-				outlined
-				dense></v-text-field>
+			<AddressInput />
 		</v-card-text>
 	</v-card>
 </template>
 
 <script setup>
+const authUserId = localStorage.getItem("auth");
+const users = JSON.parse(localStorage.getItem("users"));
+
+const userFullName = ref("");
 const importedImgUrl = ref("");
 const fileInputRef = ref();
 const valid = ref(false);
@@ -103,22 +111,35 @@ const importedImage = ref();
 const bio = ref("");
 const selectedGenres = ref([]);
 const address = ref("");
+const limitGenres = (value) => {
+	if (value.length > 3) {
+		return "Máximo: 3 gêneros";
+	}
+	return true;
+};
 
-const genres = ["Rock", "Pop", "Hip Hop", "Jazz", "Eletrônica", "MPB", "Sertanejo", "Clássica"];
+const genres = localStorage.getItem("genres") ? JSON.parse(localStorage.getItem("genres")) : [];
 
 const userImage = computed(() => {
-	console.log("importedImage.value", importedImage.value);
-	console.log(" userImage | importedImgUrl.value:", importedImgUrl.value);
 	return (
 		importedImgUrl.value ||
 		"https://cdn.wallpaperhub.app/cloudcache/9/8/1/e/8/e/981e8e91f90c93bf5e715527e1922724645f1214.jpg"
 	);
 });
 
+// FUNÇÕES INICIAIS
+onMounted(() => {
+	if (authUserId) {
+		console.log("USERSSS:", users);
+
+		// Aqui você pode buscar os dados do usuário no banco de dados usando o authUserId
+		// e preencher os campos iniciais, como userFullName, importedImgUrl, etc.
+	}
+});
+
 // Função ajustada para lidar com o evento de mudança do input
 const onFileChange = (event) => {
 	const file = event.target.files[0]; // Extrai o primeiro arquivo
-	console.log(" onFileChange | event.target:", event.target.files[0]);
 	if (!file) {
 		importedImgUrl.value = "";
 		return;
@@ -130,13 +151,15 @@ const onFileChange = (event) => {
 const createImage = async (file) => {
 	const reader = new FileReader();
 	reader.onload = (e) => {
-		importedImgUrl.value = e.target.result; // Define a URL da imagem
+		importedImgUrl.value = e.target.result;
 	};
-	reader.readAsDataURL(file); // Lê o arquivo como Data URL
+	reader.readAsDataURL(file);
 };
 function saveProfile() {
 	// Implemente a lógica de salvamento do perfil aqui
 	console.log("Perfil salvo:", {
+		id: authUserId,
+		name: userFullName.value,
 		importedImage: importedImage.value,
 		bio: bio.value,
 		selectedGenres: selectedGenres.value,
@@ -145,6 +168,4 @@ function saveProfile() {
 }
 </script>
 
-<style scoped>
-/* Estilos customizados, se necessário */
-</style>
+<style scoped></style>

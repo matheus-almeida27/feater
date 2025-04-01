@@ -105,7 +105,7 @@ const handleLogin = async () => {
 			let id: number | string;
 			do {
 				id = Math.floor(1000 + Math.random() * 9000).toString();
-			} while (users.some((user: any) => user.id === id));
+			} while (users.some((user: any) => user.id == id));
 
 			// Criar novo usuário
 			const newUser = {
@@ -117,9 +117,7 @@ const handleLogin = async () => {
 			localStorage.setItem("users", JSON.stringify(users));
 
 			console.log("Novo usuário criado:", newUser);
-
 			// Adicionar o usuário à store do Pinia
-
 			userStore.setUser(newUser);
 
 			// Redirecionar para /home
