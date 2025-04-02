@@ -1,5 +1,5 @@
 <template>
-	<v-card class="w-100 rounded-xl mb-14">
+	<v-card class="w-100 rounded-xl">
 		<v-card-title class="pt-3 pl-5 font-weight-light text-h4 mb-2 d-flex justify-space-between align-center">
 			<span> Perfil </span>
 			<v-btn
@@ -43,7 +43,7 @@
 							importedImgUrl = null;
 						}
 					"
-					variant="solo"
+					variant="tonal"
 					:class="{ 'd-none': !importedImage }"
 					rounded="xl"
 					color="error"
