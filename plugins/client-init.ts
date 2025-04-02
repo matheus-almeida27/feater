@@ -1,4 +1,6 @@
 export default defineNuxtPlugin((nuxtApp) => {
+	let authStore = useAuthStore()
+	authStore.$persist
 	if (!localStorage.getItem("users")) {
 		// PRIMEIRO ACESSO AO APP
 		// CRIAR:

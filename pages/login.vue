@@ -70,7 +70,7 @@
 	definePageMeta({
 		layout: "auth",
 	});
-	const userStore = useAuthStore();
+	const authStore = useAuthStore();
 	// Estados reativos
 	const process = ref("signup");
 
@@ -114,12 +114,12 @@
 					id: id,
 				};
 				console.log("Novo usuário criado:", newUser);
-				// Criar novo usuário
+				// insere usuario na lista de users
 				users.push(newUser);
 				localStorage.setItem("users", JSON.stringify(users));
 
 				// Adicionar o usuário à store do Pinia
-				userStore.setUser(newUser);
+				authStore.setUser(newUser);
 
 				// Redirecionar para /home
 				await navigateTo("/profile");
@@ -137,7 +137,7 @@
 				console.log("Login bem-sucedido:", user);
 
 				// Adicionar o usuário à store do Pinia
-				userStore.setUser(user);
+				authStore.setUser(user);
 
 				// Redirecionar para /home
 				await navigateTo("/home");

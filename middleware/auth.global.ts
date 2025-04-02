@@ -6,9 +6,9 @@ export default defineNuxtRouteMiddleware((to, from) => {
 		}
 
 		if (user && (to.path.includes("login") || to.path === "/")) {
-			const userStore = useAuthStore();
-			if (!userStore.user) {
-				userStore.setUser(Number({ id: Number(user) }));
+			const authStore = useAuthStore();
+			if (!authStore.user) {
+				authStore.setUser(Number({ id: Number(user) }));
 			}
 			return navigateTo("/home");
 		}

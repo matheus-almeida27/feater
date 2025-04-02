@@ -19,6 +19,9 @@ export default defineNuxtConfig({
 		host: "192.168.0.123",
 		port: 3000,
 	},
+	piniaPluginPersistedstate: {
+		storage: "localStorage",
+	},
 	modules: [
 		"@nuxt/fonts",
 		"@nuxt/icon",
