@@ -16,8 +16,8 @@ export default defineNuxtConfig({
 		transpile: ["vuetify"],
 	},
 	devServer: {
-		host: "192.168.0.123",
-		port: 3000,
+		host: process.env.HOST,
+		port: Number(process.env.PORT),
 	},
 	piniaPluginPersistedstate: {
 		storage: "localStorage",

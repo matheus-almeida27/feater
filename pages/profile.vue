@@ -2,7 +2,9 @@
 	<v-container
 		fluid
 		class="d-flex flex-column align-center justify-center pb-14">
-		<v-row no-gutters class="pb-4">
+		<v-row
+			no-gutters
+			class="pb-4">
 			<v-col
 				cols="12"
 				sm="8"
@@ -26,30 +28,34 @@
 </template>
 
 <script lang="ts" setup>
-const authStore = useAuthStore();
+	const authStore = useAuthStore();
 
-// onBeforeRouteLeave((to, from, next) => {
-// 	const user = authStore.user;
-// 	const validUserInfo = () => {
-// 		if (
-// 			user?.name &&
-// 			user.bio &&
-// 			user.favoriteGenres.length > 0 &&
-// 			user.location.latitude &&
-// 			user.location.longitude
-// 		) {
-// 			return true;
-// 		}
-// 		return false;
-// 	};
-// 	if (!validUserInfo()) return;
-// 	next();
-// });
+	onBeforeRouteLeave((to, from, next) => {
+		const user = authStore.user;
+		if (!user) {
+			next();
+			return;
+		}
+		const validUserInfo = () => {
+			if (
+				user?.name &&
+				user.bio &&
+				user.favoriteGenres.length > 0 &&
+				user.location.latitude &&
+				user.location.longitude
+			) {
+				return true;
+			}
+			return false;
+		};
+		if (!validUserInfo()) return;
+		next();
+	});
 
-const logout = async () => {
-	await authStore.setUser(null);
-	navigateTo("/login");
-};
+	const logout = async () => {
+		await authStore.setUser(null);
+		navigateTo("/login");
+	};
 </script>
 
 <style></style>

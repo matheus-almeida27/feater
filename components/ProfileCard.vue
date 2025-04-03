@@ -1,6 +1,7 @@
 <template>
 	<v-card class="w-100 rounded-xl">
-		<v-card-title class="pt-3 pl-5 font-weight-light text-h4 mb-2 d-flex justify-space-between align-center">
+		<v-card-title
+			class="pt-3 pl-5 font-weight-light text-h4 mb-2 d-flex justify-space-between align-center">
 			<span> Perfil </span>
 			<v-btn
 				color="purple-darken-3"
@@ -83,7 +84,7 @@
 			<!-- Gêneros Musicais (até 3 seleções) -->
 			<v-select
 				v-model="selectedGenres"
-				:items="genres"
+				:items="staticStore?.genres"
 				label="Gêneros Musicais"
 				multiple
 				item-title="nome"
@@ -100,72 +101,72 @@
 </template>
 
 <script setup>
-const authUserId = localStorage.getItem("auth");
-const users = JSON.parse(localStorage.getItem("users"));
+	const authStore = useAuthStore();
+	const staticStore = useStaticStore();
 
-const userFullName = ref("");
-const importedImgUrl = ref("");
-const fileInputRef = ref();
-const valid = ref(false);
-const importedImage = ref();
-const bio = ref("");
-const selectedGenres = ref([]);
-const address = ref("");
-const limitGenres = (value) => {
-	if (value.length > 3) {
-		return "Máximo: 3 gêneros";
-	}
-	return true;
-};
+	const authUserId = authStore.user?.id;
+	const staticStorage = JSON.parse(localStorage.getItem("static"));
 
-const genres = localStorage.getItem("genres") ? JSON.parse(localStorage.getItem("genres")) : [];
-
-const userImage = computed(() => {
-	return (
-		importedImgUrl.value ||
-		"https://cdn.wallpaperhub.app/cloudcache/9/8/1/e/8/e/981e8e91f90c93bf5e715527e1922724645f1214.jpg"
-	);
-});
-
-// FUNÇÕES INICIAIS
-onMounted(() => {
-	if (authUserId) {
-		console.log("USERSSS:", users);
-
-		// Aqui você pode buscar os dados do usuário no banco de dados usando o authUserId
-		// e preencher os campos iniciais, como userFullName, importedImgUrl, etc.
-	}
-});
-
-// Função ajustada para lidar com o evento de mudança do input
-const onFileChange = (event) => {
-	const file = event.target.files[0]; // Extrai o primeiro arquivo
-	if (!file) {
-		importedImgUrl.value = "";
-		return;
-	}
-	createImage(file); // Passa o arquivo diretamente, sem casting
-};
-
-// Função para criar a URL da imagem
-const createImage = async (file) => {
-	const reader = new FileReader();
-	reader.onload = (e) => {
-		importedImgUrl.value = e.target.result;
+	const userFullName = ref("");
+	const importedImgUrl = ref("");
+	const fileInputRef = ref();
+	const valid = ref(false);
+	const importedImage = ref();
+	const bio = ref("");
+	const selectedGenres = ref([]);
+	const address = ref("");
+	const limitGenres = (value) => {
+		if (value.length > 3) {
+			return "Máximo: 3 gêneros";
+		}
+		return true;
 	};
-	reader.readAsDataURL(file);
-};
-function saveProfile() {
-	// Implemente a lógica de salvamento do perfil aqui
-	console.log("Perfil salvo:", {
-		id: authUserId,
-		name: userFullName.value,
-		importedImage: importedImage.value,
-		bio: bio.value,
-		selectedGenres: selectedGenres.value,
-		address: address.value,
+
+	const userImage = computed(() => {
+		return (
+			importedImgUrl.value ||
+			authStore.user?.profileImage ||
+			"https://cdn.wallpaperhub.app/cloudcache/9/8/1/e/8/e/981e8e91f90c93bf5e715527e1922724645f1214.jpg"
+		);
 	});
-}
+
+	// FUNÇÕES INICIAIS
+	onMounted(() => {
+		if (authUserId) {
+			// Aqui você pode buscar os dados do usuário no banco de dados usando o authUserId
+			// e preencher os campos iniciais, como userFullName, importedImgUrl, etc.
+		}
+	});
+
+	// Função ajustada para lidar com o evento de mudança do input
+	const onFileChange = (event) => {
+		const file = event.target.files[0]; // Extrai o primeiro arquivo
+		if (!file) {
+			importedImgUrl.value = "";
+			return;
+		}
+		createImage(file); // Passa o arquivo diretamente, sem casting
+	};
+
+	// Função para criar a URL da imagem
+	const createImage = async (file) => {
+		const reader = new FileReader();
+		reader.onload = (e) => {
+			importedImgUrl.value = e.target.result;
+		};
+		reader.readAsDataURL(file);
+	};
+	function saveProfile() {
+		// Implemente a lógica de salvamento do perfil aqui
+		console.log("Perfil salvo:", {
+			id: authUserId,
+			name: userFullName.value,
+			importedImage: importedImage.value,
+			bio: bio.value,
+			selectedGenres: selectedGenres.value,
+			address: address.value,
+		});
+	}
 </script>
 
 <style scoped></style>
