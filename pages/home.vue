@@ -1,13 +1,15 @@
 <template>
-	<div>
-		<h1>HOME PAGEEEEEEEEEE</h1>
-	</div>
+	<v-container
+		fluid
+		class="fill-height">
+		<SwiperStack />
+	</v-container>
 </template>
 
 <script lang="ts" setup>
-	definePageMeta({
-		layout: "default",
-	});
+definePageMeta({
+	layout: "default",
+});
 </script>
 
 <style></style>

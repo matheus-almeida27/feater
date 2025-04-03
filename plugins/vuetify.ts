@@ -3,6 +3,7 @@ import "@mdi/font/css/materialdesignicons.css";
 
 import "vuetify/styles";
 import { createVuetify } from "vuetify";
+import { register } from "swiper/element-bundle";
 
 export default defineNuxtPlugin((app) => {
 	const vuetify = createVuetify({
@@ -10,9 +11,9 @@ export default defineNuxtPlugin((app) => {
 			defaultTheme: "dark",
 		},
 		icons: {
-			defaultSet: "mdi", 
+			defaultSet: "mdi",
 		},
-		
 	});
 	app.vueApp.use(vuetify);
+	register();
 });
