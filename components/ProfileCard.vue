@@ -68,7 +68,7 @@
 			<v-text-field
 				v-model="userFullName"
 				variant="solo"
-				label="Nome do Usuário"
+				label="Nome"
 				class="mb-3"
 				hide-details
 				outlined
