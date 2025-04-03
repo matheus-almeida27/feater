@@ -6,13 +6,15 @@
 			cols="12"
 			sm="8"
 			md="8"
-			lg="6"
+			lg="5"
+			xl="4"
 			class="d-flex align-center justify-center flex-column">
 			<ProfileCard />
 			<v-btn
 				@click="logout"
 				variant="tonal"
 				dark
+				max-height="40"
 				rounded="xl"
 				color="error"
 				class="mt-4"

@@ -1,5 +1,5 @@
 import type { User } from "./../types/types.global";
-export const validUserProfile = (user: User) => {
+export const validUserProfile = (user: User | null) => {
 	if (
 		user?.name &&
 		user.bio &&

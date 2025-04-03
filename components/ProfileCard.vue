@@ -87,6 +87,7 @@
 				:items="staticStore?.genres"
 				label="Gêneros Musicais"
 				multiple
+				return-object
 				item-title="nome"
 				closable-chips
 				variant="solo"
@@ -95,7 +96,9 @@
 				dense
 				:rules="[limitGenres]"></v-select>
 			<!-- Endereço -->
-			<AddressInput />
+			<AddressInput
+				@updateLocation="updateLocation"
+				:location />
 		</v-card-text>
 	</v-card>
 </template>
@@ -104,17 +107,20 @@
 	const authStore = useAuthStore();
 	const staticStore = useStaticStore();
 
+	const userAuth = authStore.user;
 	const authUserId = authStore.user?.id;
-	const staticStorage = JSON.parse(localStorage.getItem("static"));
 
-	const userFullName = ref("");
-	const importedImgUrl = ref("");
 	const fileInputRef = ref();
-	const valid = ref(false);
+
+	const userEditing = ref({ id: authUserId });
+
 	const importedImage = ref();
-	const bio = ref("");
-	const selectedGenres = ref([]);
-	const address = ref("");
+	const importedImgUrl = ref("");
+	const userFullName = ref(userAuth?.name || "");
+	const bio = ref(userAuth?.bio || "");
+	const selectedGenres = ref(userAuth?.favoriteGenres || []);
+	const location = ref(userAuth?.location || {});
+
 	const limitGenres = (value) => {
 		if (value.length > 3) {
 			return "Máximo: 3 gêneros";
@@ -126,7 +132,7 @@
 		return (
 			importedImgUrl.value ||
 			authStore.user?.profileImage ||
-			"https://cdn.wallpaperhub.app/cloudcache/9/8/1/e/8/e/981e8e91f90c93bf5e715527e1922724645f1214.jpg"
+			"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1JvoWVGditC7vWDv3xQmKMlICOgg3Igw4aw&s"
 		);
 	});
 
@@ -156,16 +162,29 @@
 		};
 		reader.readAsDataURL(file);
 	};
+
+	const updateLocation = (loc) => {
+		location.value = loc;
+	};
+
 	function saveProfile() {
 		// Implemente a lógica de salvamento do perfil aqui
-		console.log("Perfil salvo:", {
+		userEditing.value = {
 			id: authUserId,
+			location: location.value,
 			name: userFullName.value,
-			importedImage: importedImage.value,
 			bio: bio.value,
-			selectedGenres: selectedGenres.value,
-			address: address.value,
-		});
+			profileImage: userImage.value,
+			favoriteGenres: selectedGenres.value,
+		};
+		if (!validUserProfile(userEditing.value)) {
+			alert("Preencha todos os campos");
+			return;
+		}
+		staticStore.updateUser(userEditing.value);
+		alert("Perfil salvo com sucesso!");
+		navigateTo("/home");
+		console.log("Perfil salvo:", userEditing.value);
 	}
 </script>
 

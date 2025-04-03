@@ -1,7 +1,7 @@
 export type User = {
 	id: number;
 	name?: string;
-	profilePicture?: string;
+	profileImage?: string;
 	bio?: string;
 	favoriteGenres: Number[];
 	username?: string;

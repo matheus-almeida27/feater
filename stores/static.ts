@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { User } from "~/types/types.global";
+import type { User } from "~/types/types.global.ts";
 
 export const useStaticStore = defineStore("static", {
 	state: () => ({
@@ -39,7 +39,7 @@ export const useStaticStore = defineStore("static", {
 			{
 				id: 1,
 				name: "Lucas Andrade",
-				profilePicture: "https://randomuser.me/api/portraits/men/1.jpg",
+				profileImage: "https://randomuser.me/api/portraits/men/1.jpg",
 				bio: "Beatmaker apaixonado por lo-fi e hip hop. Sempre em busca de novas colaborações!",
 				favoriteGenres: [1, 5, 3],
 				location: { latitude: -23.55052, longitude: -46.63331 }, // São Paulo, Brasil
@@ -47,7 +47,7 @@ export const useStaticStore = defineStore("static", {
 			{
 				id: 2,
 				name: "Mariana Souza",
-				profilePicture: "https://randomuser.me/api/portraits/women/2.jpg",
+				profileImage: "https://randomuser.me/api/portraits/women/2.jpg",
 				bio: "Cantora e compositora. Gosto de misturar pop com R&B.",
 				favoriteGenres: [5, 12, 6],
 				location: { latitude: -22.9068, longitude: -43.1729 }, // Rio de Janeiro, Brasil
@@ -55,7 +55,7 @@ export const useStaticStore = defineStore("static", {
 			{
 				id: 3,
 				name: "Fernando Oliveira",
-				profilePicture: "https://randomuser.me/api/portraits/men/3.jpg",
+				profileImage: "https://randomuser.me/api/portraits/men/3.jpg",
 				bio: "Produtor musical e guitarrista. Curto rock e música eletrônica.",
 				favoriteGenres: [25, 15, 7],
 				location: { latitude: -19.9167, longitude: -43.9345 }, // Belo Horizonte, Brasil
@@ -63,7 +63,7 @@ export const useStaticStore = defineStore("static", {
 			{
 				id: 4,
 				name: "Isabela Lima",
-				profilePicture: "https://randomuser.me/api/portraits/women/4.jpg",
+				profileImage: "https://randomuser.me/api/portraits/women/4.jpg",
 				bio: "Violonista e compositora. Sempre compondo novas melodias.",
 				favoriteGenres: [1, 3, 7],
 				location: { latitude: -8.0476, longitude: -34.877 }, // Recife, Brasil
@@ -73,6 +73,18 @@ export const useStaticStore = defineStore("static", {
 	actions: {
 		addUser(user: any) {
 			this.users.push(user);
+		},
+		updateUser(editedUser: User) {
+			const authStore = useAuthStore();
+			const user = this.users.find((user) => user.id == editedUser.id);
+			if (user) {
+				user.name = editedUser.name;
+				user.bio = editedUser.bio;
+				user.profileImage = editedUser.profileImage;
+				user.favoriteGenres = editedUser.favoriteGenres;
+				user.location = editedUser.location;
+			}
+			authStore.setUser(user);
 		},
 	},
 	persist: true,
