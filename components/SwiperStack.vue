@@ -1,28 +1,32 @@
 <template>
 	<div class="card-stack w-100">
-		<div
-			v-if="!cards.length"
-			class="text-center justify-center align-center d-flex">
-			<v-btn
-				class="ma-2"
-				size="120"
-				variant="tonal"
-				icon
-				color="purple-darken-4"
-				@click="resetCardsStack()"
-				>Resetar <br />Stack</v-btn
-			>
-		</div>
-		<div
-			v-for="(card, index) in cards"
-			:key="card.id"
-			class="card"
-			:class="{ 'card-active': index === 0 }"
-			@mousedown="startDrag($event, index)"
-			@touchstart="startDrag($event, index)">
-			<div class="overflow" />
-			<InnerCardStack :card />
-		</div>
+		<v-scale-transition hide-on-leave>
+			<div
+				v-if="!cards.length"
+				class="text-center justify-center align-center d-flex">
+				<v-btn
+					class="ma-2"
+					size="120"
+					variant="tonal"
+					icon
+					color="purple-darken-4"
+					@click="resetCardsStack()"
+					>Resetar <br />Stack</v-btn
+				>
+			</div>
+		</v-scale-transition>
+		<v-dialog-transition>
+			<div
+				class="card"
+				v-for="(card, index) in cards"
+				:key="card.id"
+				:class="{ 'card-active': index === 0 }"
+				@mousedown="startDrag($event, index)"
+				@touchstart="startDrag($event, index)">
+				<div class="overflow" />
+				<InnerCardStack :card />
+			</div>
+		</v-dialog-transition>
 	</div>
 </template>
 
@@ -109,8 +113,8 @@
 
 	.card-stack {
 		position: relative;
-		width: 240px;
-		height: 320px;
+		// width: 240px;
+		height: 60% ;
 		display: flex;
 		align-items: center;
 		justify-content: center;

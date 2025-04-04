@@ -4,12 +4,15 @@
 		class="fill-height">
 		<v-row
 			align="center"
-			justify="center">
+			justify="center"
+			class="fill-height">
 			<v-col
 				cols="12"
 				sm="8"
 				md="6"
-				lg="4">
+				lg="4"
+				xl="3"
+				class="fill-height justify-center align-center d-flex">
 				<SwiperStack />
 			</v-col>
 		</v-row>
