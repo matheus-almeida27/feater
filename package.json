@@ -1,7 +1,8 @@
 {
-  "name": "nuxt-app",
+  "name": "feater-app",
   "private": true,
   "type": "module",
+  "version": "0.2.2",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",

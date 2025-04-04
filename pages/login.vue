@@ -21,7 +21,9 @@
 						<v-btn
 							@click="process = process === 'login' ? 'signup' : 'login'"
 							variant="text"
+							rounded="xl"
 							size="small"
+							max-height="30"
 							>{{ text?.btn }}
 						</v-btn>
 					</v-row>
@@ -33,7 +35,6 @@
 								variant="plain"
 								v-model="username"
 								label="Username"
-								prepend-icon="mdi-account"
 								:rules="[(v) => !!v || 'Username é obrigatório']"
 								required
 								class="mb-4"></v-text-field>
@@ -42,7 +43,6 @@
 								variant="plain"
 								v-model="password"
 								label="Senha"
-								prepend-icon="mdi-lock"
 								:append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
 								:type="showPassword ? 'text' : 'password'"
 								:rules="[(v) => !!v || 'Senha é obrigatória']"
@@ -51,8 +51,9 @@
 
 							<v-btn
 								type="submit"
-								color="purple"
+								color="purple-darken-3"
 								block
+								rounded="xl"
 								large
 								class="mt-6"
 								:loading="loading">
@@ -67,106 +68,106 @@
 </template>
 
 <script lang="ts" setup>
-	definePageMeta({
-		layout: "auth",
-	});
-	const authStore = useAuthStore();
-	const staticStore = useStaticStore();
-	// Estados reativos
-	const process = ref("signup");
+definePageMeta({
+	layout: "auth",
+});
+const authStore = useAuthStore();
+const staticStore = useStaticStore();
+// Estados reativos
+const process = ref("signup");
 
-	const username = ref("");
-	const password = ref("");
-	const showPassword = ref(false);
-	const loading = ref(false);
-	const form = ref(null);
+const username = ref("");
+const password = ref("");
+const showPassword = ref(false);
+const loading = ref(false);
+const form = ref(null);
 
-	const text = computed(() => {
-		if (process.value === "login") {
-			return { header: "Login", btn: "Criar Conta" };
-		} else if (process.value === "signup") {
-			return { header: "Criar Conta", btn: "Fazer Login" };
-		}
-	});
-	// Função de login
-	const handleLogin = async () => {
-		try {
-			loading.value = true;
+const text = computed(() => {
+	if (process.value === "login") {
+		return { header: "Login", btn: "Criar Conta" };
+	} else if (process.value === "signup") {
+		return { header: "Criar Conta", btn: "Fazer Login" };
+	}
+});
+// Função de login
+const handleLogin = async () => {
+	try {
+		loading.value = true;
 
-			const users = staticStore.users;
-			if (process.value === "signup") {
-				// Verificar se o usuário já existe
-				const existingUser = users.find((user: any) => user.username === username.value);
-				if (existingUser) {
-					alert("Usuário já existe. Escolha outro nome de usuário.");
-					return;
-				}
-
-				// Gerar um código único de 4 dígitos
-				let id: number | string;
-				do {
-					id = Math.floor(1000 + Math.random() * 9000).toString();
-				} while (users.some((user: any) => user.id == id));
-
-				// Criar novo usuário
-				const newUser = {
-					username: username.value,
-					password: password.value,
-					id: id,
-				};
-
-				// Adicionar o usuário à store do Pinia
-				authStore.setUser(newUser);
-				staticStore.addUser(newUser);
-
-				await navigateTo("/profile");
-			} else if (process.value === "login") {
-				// Verificar se o usuário existe e a senha está correta
-				const user = users.find((user: any) => user.username === username.value);
-				if (!user) {
-					alert("Usuário não encontrado.");
-					return;
-				}
-				if (user.password !== password.value) {
-					alert("Senha incorreta.");
-					return;
-				}
-
-				// Adicionar o usuário à store do Pinia
-				authStore.setUser(user);
-				if (!validUserProfile(user)) {
-					await navigateTo("/profile");
-					return;
-				}
-				// Redirecionar para /home
-				await navigateTo("/home");
+		const users = staticStore.users;
+		if (process.value === "signup") {
+			// Verificar se o usuário já existe
+			const existingUser = users.find((user: any) => user.username === username.value);
+			if (existingUser) {
+				alert("Usuário já existe. Escolha outro nome de usuário.");
+				return;
 			}
-		} catch (error) {
-			console.error("login err:", error);
-		} finally {
-			loading.value = false;
+
+			// Gerar um código único de 4 dígitos
+			let id: number | string;
+			do {
+				id = Math.floor(1000 + Math.random() * 9000).toString();
+			} while (users.some((user: any) => user.id == id));
+
+			// Criar novo usuário
+			const newUser = {
+				username: username.value,
+				password: password.value,
+				id: id,
+			};
+
+			// Adicionar o usuário à store do Pinia
+			authStore.setUser(newUser);
+			staticStore.addUser(newUser);
+
+			await navigateTo("/profile");
+		} else if (process.value === "login") {
+			// Verificar se o usuário existe e a senha está correta
+			const user = users.find((user: any) => user.username === username.value);
+			if (!user) {
+				alert("Usuário não encontrado.");
+				return;
+			}
+			if (user.password !== password.value) {
+				alert("Senha incorreta.");
+				return;
+			}
+
+			// Adicionar o usuário à store do Pinia
+			authStore.setUser(user);
+			if (!validUserProfile(user)) {
+				await navigateTo("/profile");
+				return;
+			}
+			// Redirecionar para /home
+			await navigateTo("/home");
 		}
-	};
+	} catch (error) {
+		console.error("login err:", error);
+	} finally {
+		loading.value = false;
+	}
+};
 </script>
 
 <style scoped>
-	.login-container {
-		background: linear-gradient(135deg, #170829 0%, #2f0f49 100%);
-		min-height: 100vh;
-	}
+.login-container {
+	background: linear-gradient(135deg, #170829 0%, #2f0f49 100%);
+	min-height: 100vh;
+}
 
+.v-card {
+	background: linear-gradient(33deg, #170829 0%, #2f0f49 100%);
+	border-radius: 12px;
+}
+
+@media (max-width: 600px) {
 	.v-card {
-		background: linear-gradient(33deg, #170829 0%, #2f0f49 100%);
-		border-radius: 12px;
+		margin: 16px;
 	}
 
-	@media (max-width: 600px) {
-		.v-card {
-			margin: 16px;
-		}
-
-		.v-btn {
-			height: 48px !important;
-		}
+	.v-btn {
+		height: 48px !important;
 	}
+}
 </style>

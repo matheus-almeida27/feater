@@ -41,7 +41,11 @@ export const useStaticStore = defineStore("static", {
 				name: "Lucas Andrade",
 				profileImage: "https://randomuser.me/api/portraits/men/1.jpg",
 				bio: "Beatmaker apaixonado por lo-fi e hip hop. Sempre em busca de novas colaborações!",
-				favoriteGenres: [1, 5, 3],
+				favoriteGenres: [
+					{ id: 8, nome: "Pagode" },
+					{ id: 9, nome: "Samba" },
+					{ id: 10, nome: "Jazz" },
+				],
 				location: { latitude: -23.55052, longitude: -46.63331, address: "São Paulo, Brasil" }, // São Paulo, Brasil
 			},
 			{
@@ -49,7 +53,11 @@ export const useStaticStore = defineStore("static", {
 				name: "Mariana Souza",
 				profileImage: "https://randomuser.me/api/portraits/women/2.jpg",
 				bio: "Cantora e compositora. Gosto de misturar pop com R&B.",
-				favoriteGenres: [5, 12, 6],
+				favoriteGenres: [
+					{ id: 27, nome: "Axé" },
+					{ id: 28, nome: "Brega" },
+					{ id: 29, nome: "Gospel" },
+				],
 				location: { latitude: -22.9068, longitude: -43.1729, address: "Rio de Janeiro, Brasil" }, // Rio de Janeiro, Brasil
 			},
 			{
@@ -57,7 +65,11 @@ export const useStaticStore = defineStore("static", {
 				name: "Fernando Oliveira",
 				profileImage: "https://randomuser.me/api/portraits/men/3.jpg",
 				bio: "Produtor musical e guitarrista. Curto rock e música eletrônica.",
-				favoriteGenres: [25, 15, 7],
+				favoriteGenres: [
+					{ id: 21, nome: "House" },
+					{ id: 22, nome: "Techno" },
+					{ id: 23, nome: "Dubstep" },
+				],
 				location: { latitude: -19.9167, longitude: -43.9345, address: "Belo Horizonte, Brasil" }, // Belo Horizonte, Brasil
 			},
 			{
@@ -65,7 +77,11 @@ export const useStaticStore = defineStore("static", {
 				name: "Isabela Lima",
 				profileImage: "https://randomuser.me/api/portraits/women/4.jpg",
 				bio: "Violonista e compositora. Sempre compondo novas melodias.",
-				favoriteGenres: [1, 3, 7],
+				favoriteGenres: [
+					{ id: 12, nome: "Clássica" },
+					{ id: 13, nome: "Reggae" },
+					{ id: 14, nome: "Country" },
+				],
 				location: { latitude: -8.0476, longitude: -34.877, address: "Recife, Brasil" }, // Recife, Brasil
 			},
 		] as User[],

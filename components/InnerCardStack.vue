@@ -52,9 +52,7 @@ const props = defineProps({
 });
 
 const genres = computed(() => {
-	return staticStore.genres.filter((genre) => {
-		return props.card.favoriteGenres.some((g: any) => g === genre.id);
-	});
+	return props.card.favoriteGenres || [];
 });
 </script>
 
