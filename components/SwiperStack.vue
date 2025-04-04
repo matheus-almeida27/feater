@@ -1,5 +1,5 @@
 <template>
-	<div class="card-stack">
+	<div class="card-stack w-100">
 		<div
 			v-if="!cards.length"
 			class="text-center justify-center align-center d-flex">
