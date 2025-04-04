@@ -34,7 +34,7 @@
 					block
 					rounded="xl"
 					variant="tonal"
-					color="red-lighten-1">
+					color="error">
 					<v-icon class="mr-2"> mdi-map-marker </v-icon>
 					remover localização</v-btn
 				>

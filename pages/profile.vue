@@ -16,7 +16,7 @@
 				dark
 				max-height="40"
 				rounded="xl"
-				color="error"
+				color="red-darken-2"
 				class="mt-4"
 				block>
 				<v-icon class="mr-3"> mdi-logout </v-icon>
