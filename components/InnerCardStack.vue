@@ -11,15 +11,22 @@
 			<p class="card-address">{{ card.location.address }}</p>
 			<div class="card-genres">
 				<span
-					v-for="(genre, index) in card.genres"
+					v-for="(genre, index) in genres"
 					:key="index"
-					class="genre-tag">
-					{{ genre }}
+					class="genre-tag mb-2">
+					{{ genre.nome }}
 				</span>
 			</div>
 		</div>
 
 		<!-- Bio -->
+		<v-expand-transition>
+			<v-icon
+				v-if="!showBio"
+				size="20"
+				>mdi-chevron-down</v-icon
+			>
+		</v-expand-transition>
 		<v-expand-transition>
 			<div
 				v-if="showBio"
@@ -31,7 +38,9 @@
 </template>
 
 <script lang="ts" setup>
-defineProps({
+const staticStore = useStaticStore();
+
+const props = defineProps({
 	card: {
 		type: Object,
 		required: true,
@@ -40,6 +49,12 @@ defineProps({
 		type: Boolean,
 		default: false,
 	},
+});
+
+const genres = computed(() => {
+	return staticStore.genres.filter((genre) => {
+		return props.card.favoriteGenres.some((g: any) => g === genre.id);
+	});
 });
 </script>
 
@@ -111,7 +126,7 @@ img {
 .genre-tag {
 	background: rgba(255, 255, 255, 0.2);
 	padding: 5px 10px;
-	border-radius: 5px;
+	border-radius: 20px;
 	font-size: 12px;
 }
 
