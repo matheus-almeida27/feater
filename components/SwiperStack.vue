@@ -15,18 +15,20 @@
 				>
 			</div>
 		</v-scale-transition>
-		<v-dialog-transition>
-			<div
-				class="card"
-				v-for="(card, index) in cards"
-				:key="card.id"
-				:class="{ 'card-active': index === 0 }"
-				@mousedown="startDrag($event, index)"
-				@touchstart="startDrag($event, index)">
-				<div class="overflow" />
-				<InnerCardStack :card />
-			</div>
-		</v-dialog-transition>
+		<div
+			class="card"
+			v-for="(card, index) in cards"
+			:key="card.id"
+			:class="{ 'card-active': index === 0 }"
+			@mousedown="startDrag($event, index)"
+			@touchstart="startDrag($event, index)">
+			<!-- <div class="overflow" /> -->
+			<v-dialog-transition>
+				<InnerCardStack
+					v-if="index === 0"
+					:card />
+			</v-dialog-transition>
+		</div>
 	</div>
 </template>
 
@@ -114,7 +116,7 @@
 	.card-stack {
 		position: relative;
 		// width: 240px;
-		height: 60% ;
+		height: 60%;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -142,14 +144,6 @@
 	}
 
 	.card:not(.card-active) {
-		div.overflow {
-			border-radius: 30px;
-			background: linear-gradient(135deg, #170829 0%, #2f0f49 100%);
-			position: absolute;
-			height: 100%;
-			width: 100%;
-			z-index: 7;
-		}
 		z-index: 5;
 	}
 </style>
