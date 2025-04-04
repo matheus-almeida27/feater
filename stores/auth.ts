@@ -6,7 +6,6 @@ export const useAuthStore = defineStore("auth", {
 	}),
 	actions: {
 		setUser(user: any) {
-			console.log(" setUser | user:", user);
 			this.user = user || null;
 		},
 	},

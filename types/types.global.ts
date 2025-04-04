@@ -6,5 +6,12 @@ export type User = {
 	favoriteGenres: Number[];
 	username?: string;
 	password?: string;
-	location: { latitude: number; longitude: number; city?: string; state?: string; country?: string };
+	location: {
+		address?: string;
+		latitude: number;
+		longitude: number;
+		city?: string;
+		state?: string;
+		country?: string;
+	};
 };

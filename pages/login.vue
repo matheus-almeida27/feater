@@ -131,7 +131,6 @@
 					alert("Senha incorreta.");
 					return;
 				}
-				console.log("Login bem-sucedido:", user);
 
 				// Adicionar o usuário à store do Pinia
 				authStore.setUser(user);

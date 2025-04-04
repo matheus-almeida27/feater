@@ -184,7 +184,6 @@
 		staticStore.updateUser(userEditing.value);
 		alert("Perfil salvo com sucesso!");
 		navigateTo("/home");
-		console.log("Perfil salvo:", userEditing.value);
 	}
 </script>
 

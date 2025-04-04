@@ -42,7 +42,7 @@ export const useStaticStore = defineStore("static", {
 				profileImage: "https://randomuser.me/api/portraits/men/1.jpg",
 				bio: "Beatmaker apaixonado por lo-fi e hip hop. Sempre em busca de novas colaborações!",
 				favoriteGenres: [1, 5, 3],
-				location: { latitude: -23.55052, longitude: -46.63331 }, // São Paulo, Brasil
+				location: { latitude: -23.55052, longitude: -46.63331, address: "São Paulo, Brasil" }, // São Paulo, Brasil
 			},
 			{
 				id: 2,
@@ -50,7 +50,7 @@ export const useStaticStore = defineStore("static", {
 				profileImage: "https://randomuser.me/api/portraits/women/2.jpg",
 				bio: "Cantora e compositora. Gosto de misturar pop com R&B.",
 				favoriteGenres: [5, 12, 6],
-				location: { latitude: -22.9068, longitude: -43.1729 }, // Rio de Janeiro, Brasil
+				location: { latitude: -22.9068, longitude: -43.1729, address: "Rio de Janeiro, Brasil" }, // Rio de Janeiro, Brasil
 			},
 			{
 				id: 3,
@@ -58,7 +58,7 @@ export const useStaticStore = defineStore("static", {
 				profileImage: "https://randomuser.me/api/portraits/men/3.jpg",
 				bio: "Produtor musical e guitarrista. Curto rock e música eletrônica.",
 				favoriteGenres: [25, 15, 7],
-				location: { latitude: -19.9167, longitude: -43.9345 }, // Belo Horizonte, Brasil
+				location: { latitude: -19.9167, longitude: -43.9345, address: "Belo Horizonte, Brasil" }, // Belo Horizonte, Brasil
 			},
 			{
 				id: 4,
@@ -66,7 +66,7 @@ export const useStaticStore = defineStore("static", {
 				profileImage: "https://randomuser.me/api/portraits/women/4.jpg",
 				bio: "Violonista e compositora. Sempre compondo novas melodias.",
 				favoriteGenres: [1, 3, 7],
-				location: { latitude: -8.0476, longitude: -34.877 }, // Recife, Brasil
+				location: { latitude: -8.0476, longitude: -34.877, address: "Recife, Brasil" }, // Recife, Brasil
 			},
 		] as User[],
 	}),

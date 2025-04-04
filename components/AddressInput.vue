@@ -58,7 +58,6 @@
 	const longitude = ref(props.location?.longitude || "");
 
 	const formatedAddress = computed(() => {
-		console.log("🚀 ~ formatedAddress ~ address.value:", address.value);
 		if (props.location?.address) {
 			return `${props.location?.address}`;
 		} else if (address.value) {
