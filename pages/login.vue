@@ -113,7 +113,8 @@ const handleLogin = async () => {
 			const newUser = {
 				username: username.value,
 				password: password.value,
-				id: id,
+				id: Number(id),
+				likedUsers: [],
 			};
 
 			// Adicionar o usuário à store do Pinia
@@ -123,7 +124,7 @@ const handleLogin = async () => {
 			await navigateTo("/profile");
 		} else if (process.value === "login") {
 			// Verificar se o usuário existe e a senha está correta
-			const user = users.find((user: any) => user.username === username.value);
+			const user = users.find((user: any) => user.username == username.value);
 			if (!user) {
 				alert("Usuário não encontrado.");
 				return;

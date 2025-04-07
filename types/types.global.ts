@@ -6,6 +6,7 @@ export type User = {
 	favoriteGenres: { id: number; nome: string }[];
 	username?: string;
 	password?: string;
+	likedUsers: number[];
 	location: {
 		address?: string;
 		latitude: number;

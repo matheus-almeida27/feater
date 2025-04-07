@@ -46,6 +46,7 @@ export const useStaticStore = defineStore("static", {
 					{ id: 9, nome: "Samba" },
 					{ id: 10, nome: "Jazz" },
 				],
+				likedUsers: [],
 				location: { latitude: -23.55052, longitude: -46.63331, address: "São Paulo, Brasil" }, // São Paulo, Brasil
 			},
 			{
@@ -58,6 +59,7 @@ export const useStaticStore = defineStore("static", {
 					{ id: 28, nome: "Brega" },
 					{ id: 29, nome: "Gospel" },
 				],
+				likedUsers: [],
 				location: { latitude: -22.9068, longitude: -43.1729, address: "Rio de Janeiro, Brasil" }, // Rio de Janeiro, Brasil
 			},
 			{
@@ -70,6 +72,7 @@ export const useStaticStore = defineStore("static", {
 					{ id: 22, nome: "Techno" },
 					{ id: 23, nome: "Dubstep" },
 				],
+				likedUsers: [],
 				location: { latitude: -19.9167, longitude: -43.9345, address: "Belo Horizonte, Brasil" }, // Belo Horizonte, Brasil
 			},
 			{
@@ -82,6 +85,7 @@ export const useStaticStore = defineStore("static", {
 					{ id: 13, nome: "Reggae" },
 					{ id: 14, nome: "Country" },
 				],
+				likedUsers: [],
 				location: { latitude: -8.0476, longitude: -34.877, address: "Recife, Brasil" }, // Recife, Brasil
 			},
 		] as User[],

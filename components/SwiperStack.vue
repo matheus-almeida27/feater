@@ -1,5 +1,14 @@
 <template>
 	<div class="card-stack w-100">
+		<v-dialog
+			v-model="matchDialog"
+			fullscreen
+			persistent>
+			<MatchDialogContent
+				v-if="matchDialog"
+				:match-info
+				@close="onCLoseMatch" />
+		</v-dialog>
 		<v-scale-transition hide-on-leave>
 			<div
 				v-if="!cards.length"
@@ -44,10 +53,12 @@ const showBio = ref(false);
 
 const cards = ref([...users.value.filter((user) => user.id !== authStore.user.id)]);
 
+const matchDialog = ref(false);
 let startX = 0;
 let currentX = 0;
 let isDragging = false;
 let draggedCard = null;
+const matchInfo = ref(null);
 
 const swipeResult = ref();
 
@@ -84,11 +95,15 @@ function endDrag() {
 	if (Math.abs(dx) > 20 && currentX != startX) {
 		// Só processa se o movimento for significativo
 		if (Math.abs(dx) > 100) {
-			const direction = dx > 0 ? "→" : "←";
+			const direction = dx > 0 ? "R" : "L";
 			showBio.value = false; // Fecha a bio se estiver aberta
 			const swipedCard = cards.value[0];
 			swipeResult.value = { direction, card: swipedCard };
-			emit("swipe", swipeResult.value); // Emite o resultado
+			if (direction == "R") {
+				authStore.addLikedUser(swipedCard.id);
+			} else {
+				authStore.rmvLikedUser(swipedCard.id);
+			}
 
 			draggedCard.style.transition = "transform 0.3s, opacity 0.3s";
 			draggedCard.style.transform = `translateX(${dx > 0 ? 500 : -500}px)`;
@@ -97,6 +112,9 @@ function endDrag() {
 			setTimeout(() => {
 				cards.value.shift();
 				showBio.value = false; // Fecha a bio se estiver aberta
+				if (direction == "R") {
+					checkMatch(swipedCard);
+				}
 			}, 200);
 		} else {
 			// Movimento pequeno: volta ao lugar
@@ -120,6 +138,24 @@ function endDrag() {
 function resetCardsStack() {
 	cards.value = [...users.value.filter((user) => user.id !== authStore.user.id)];
 }
+
+const checkMatch = (swipedCard) => {
+	// Lógica para verificar se houve match
+	matchInfo.value = swipedCard;
+	matchDialog.value = true;
+	return;
+	const swipedUser = users.value.find((user) => user.id === swipedCard.id);
+	if (swipedUser.likedUsers.includes(authStore.user.id)) {
+		// Lógica para o match
+		alert("Match found with:", swipedUser.username);
+		alert("You both liked each other!");
+	}
+};
+
+const onCLoseMatch = () => {
+	matchDialog.value = false;
+	matchInfo.value = null;
+};
 </script>
 
 <style lang="scss" scoped>
