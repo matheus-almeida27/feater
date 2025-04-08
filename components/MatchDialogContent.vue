@@ -111,7 +111,7 @@ const topTxt = props.matchInfo?.name?.split(" ")[0] + " também curtiu você!";
 // Navega para a rota de mensagens (defina a rota conforme sua aplicação)
 function goToMessages() {
 	emit("close");
-	navigateTo("/messages");
+	navigateTo(`/messages/${props.matchInfo.id}-${authStore?.user?.id}`);
 }
 </script>
 
