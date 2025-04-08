@@ -43,22 +43,25 @@
 	</div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import type { User } from "~/types/types.global";
+
 const emit = defineEmits(["swipe"]);
 
 const staticStore = useStaticStore();
 const authStore = useAuthStore();
+const chatsStore = useChatsStore();
 const users = ref(staticStore.users);
 const showBio = ref(false);
 
-const cards = ref([...users.value.filter((user) => user.id !== authStore.user.id)]);
+const cards = ref([...users.value.filter((user) => user.id !== authStore?.user?.id)]);
 
 const matchDialog = ref(false);
 let startX = 0;
 let currentX = 0;
 let isDragging = false;
-let draggedCard = null;
-const matchInfo = ref(null);
+let draggedCard = ref();
+const matchInfo = ref();
 
 const swipeResult = ref();
 
@@ -66,9 +69,9 @@ const toggleBio = () => {
 	showBio.value = !showBio.value;
 };
 
-function startDrag(event, index) {
+function startDrag(event: any, index: any) {
 	if (index !== 0) return; // Só o card da frente pode ser arrastado
-	draggedCard = document.querySelector("#innerCardRef");
+	draggedCard.value = document.querySelector("#innerCardRef");
 	isDragging = true;
 	startX = event.type.includes("touch") ? event.touches[0].clientX : event.clientX;
 	currentX = startX;
@@ -79,12 +82,12 @@ function startDrag(event, index) {
 	document.addEventListener("touchend", endDrag);
 }
 
-function onDrag(event) {
+function onDrag(event: any) {
 	if (!isDragging) return;
 	currentX = event.type.includes("touch") ? event.touches[0].clientX : event.clientX;
 	const dx = currentX - startX;
-	draggedCard.style.transform = `translateX(${dx}px) rotate(${dx / 10}deg)`;
-	draggedCard.style.opacity = 1 - Math.abs(dx) / 300; // Fade out
+	draggedCard.value.style.transform = `translateX(${dx}px) rotate(${dx / 10}deg)`;
+	draggedCard.value.style.opacity = 1 - Math.abs(dx) / 300; // Fade out
 }
 
 function endDrag() {
@@ -97,7 +100,7 @@ function endDrag() {
 		if (Math.abs(dx) > 100) {
 			const direction = dx > 0 ? "R" : "L";
 			showBio.value = false; // Fecha a bio se estiver aberta
-			const swipedCard = cards.value[0];
+			const swipedCard: User = cards.value[0];
 			swipeResult.value = { direction, card: swipedCard };
 			if (direction == "R") {
 				authStore.addLikedUser(swipedCard.id);
@@ -105,9 +108,9 @@ function endDrag() {
 				authStore.rmvLikedUser(swipedCard.id);
 			}
 
-			draggedCard.style.transition = "transform 0.3s, opacity 0.3s";
-			draggedCard.style.transform = `translateX(${dx > 0 ? 500 : -500}px)`;
-			draggedCard.style.opacity = 0;
+			draggedCard.value.style.transition = "transform 0.3s, opacity 0.3s";
+			draggedCard.value.style.transform = `translateX(${dx > 0 ? 500 : -500}px)`;
+			draggedCard.value.style.opacity = 0;
 
 			setTimeout(() => {
 				cards.value.shift();
@@ -118,15 +121,15 @@ function endDrag() {
 			}, 200);
 		} else {
 			// Movimento pequeno: volta ao lugar
-			draggedCard.style.transition = "transform 0.3s, opacity 0.3s";
-			draggedCard.style.transform = "translateX(0)";
-			draggedCard.style.opacity = 1;
+			draggedCard.value.style.transition = "transform 0.3s, opacity 0.3s";
+			draggedCard.value.style.transform = "translateX(0)";
+			draggedCard.value.style.opacity = 1;
 		}
 	} else {
 		// Clique simples (dx < 20): não faz nada
-		draggedCard.style.transition = "transform 0.3s, opacity 0.3s";
-		draggedCard.style.transform = "translateX(0)";
-		draggedCard.style.opacity = 1;
+		draggedCard.value.style.transition = "transform 0.3s, opacity 0.3s";
+		draggedCard.value.style.transform = "translateX(0)";
+		draggedCard.value.style.opacity = 1;
 	}
 
 	document.removeEventListener("mousemove", onDrag);
@@ -136,18 +139,18 @@ function endDrag() {
 }
 
 function resetCardsStack() {
-	cards.value = [...users.value.filter((user) => user.id !== authStore.user.id)];
+	cards.value = [...users.value.filter((user) => user.id !== authStore?.user?.id)];
 }
 
-const checkMatch = (swipedCard) => {
+const checkMatch = (swipedCard: User) => {
 	// Lógica para verificar se houve match
 	matchInfo.value = swipedCard;
 	matchDialog.value = true;
+	chatsStore.createChat(swipedCard);
 	return;
 	const swipedUser = users.value.find((user) => user.id === swipedCard.id);
-	if (swipedUser.likedUsers.includes(authStore.user.id)) {
+	if (swipedUser?.likedUsers.includes(Number(authStore?.user?.id))) {
 		// Lógica para o match
-		alert("Match found with:", swipedUser.username);
 		alert("You both liked each other!");
 	}
 };
