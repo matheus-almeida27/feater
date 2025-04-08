@@ -145,8 +145,8 @@ function resetCardsStack() {
 const checkMatch = (swipedCard: User) => {
 	// Lógica para verificar se houve match
 	matchInfo.value = swipedCard;
-	matchDialog.value = true;
 	chatsStore.createChat(swipedCard);
+	matchDialog.value = true;
 	return;
 	const swipedUser = users.value.find((user) => user.id === swipedCard.id);
 	if (swipedUser?.likedUsers.includes(Number(authStore?.user?.id))) {

@@ -28,7 +28,7 @@
 				</v-list-item-content>
 			</v-list-item>
 		</v-list>
-</v-container>
+	</v-container>
 </template>
 
 <script lang="ts" setup>
@@ -72,14 +72,11 @@ function getMatchName(match: Chat): string {
 
 // Navega para o chat com o match
 function goToChat(match: Chat) {
-	const otherUserId = match.participants.find((id) => id !== authStore.user?.id);
-	router.push(`/chat/${otherUserId}-${authStore.user?.id}`); // Ajuste a rota conforme sua estrutura
+	router.push(`/chat/${match.id}`); // Ajuste a rota conforme sua estrutura
 }
 </script>
 
 <style scoped>
-
-
 .matches-title {
 	font-size: 24px;
 	font-weight: bold;

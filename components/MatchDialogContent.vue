@@ -94,9 +94,11 @@
 		</v-container>
 	</div>
 </template>
-<script setup>
-const authStore = useAuthStore();
+<script setup lang="ts">
+import type { Chat } from "~/types/types.global";
 
+const authStore = useAuthStore();
+const chatsStore = useChatsStore();
 const props = defineProps({
 	// Definindo as propriedades esperadas
 	matchInfo: {
@@ -104,14 +106,26 @@ const props = defineProps({
 		default: () => null,
 	},
 });
-const userImg = authStore.user.profileImage || "";
+
+const existingChat = chatsStore.chats.find(
+	(chat: Chat) =>
+		chat.participants.includes(Number(props.matchInfo.id)) &&
+		chat.participants.includes(Number(authStore?.user?.id))
+);
+
+const userImg = authStore.user?.profileImage || "";
 const emit = defineEmits(["close"]);
 const topTxt = props.matchInfo?.name?.split(" ")[0] + " também curtiu você!";
 
 // Navega para a rota de mensagens (defina a rota conforme sua aplicação)
 function goToMessages() {
+	const existingChat = chatsStore.chats.find(
+		(chat: Chat) =>
+			chat.participants.includes(Number(props.matchInfo.id)) &&
+			chat.participants.includes(Number(authStore?.user?.id))
+	);
 	emit("close");
-	navigateTo(`/messages/${props.matchInfo.id}-${authStore?.user?.id}`);
+	navigateTo(`/messages/${existingChat?.id}`);
 }
 </script>
 

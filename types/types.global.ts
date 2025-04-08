@@ -18,7 +18,7 @@ export type User = {
 };
 
 export type Chat = {
-	id: string;
+	id: number;
 	participants: number[];
 	messages: Message[]; // Se optar por armazenar as mensagens internamente.
 };

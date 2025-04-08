@@ -18,14 +18,14 @@ export const useChatsStore = defineStore("chatsStore", {
 			if (!existingChat) {
 				// Cria um novo chat com o usuário correspondente
 				const newChat: Chat = {
-					id: `${matchedUser.id}-${authStore?.user?.id}`, // ID único para o chat
+					id: Date.now(), // ID único para o chat
 					participants: [matchedUser.id, authStore?.user?.id || 0], // IDs dos participantes
 					messages: [], // Inicializa com mensagens vazias
 				};
 				this.chats.push(newChat);
 			}
 		},
-		selectChat(chatId: string) {
+		selectChat(chatId: number) {
 			const chat = this.chats.find((c) => c.id == chatId);
 			this.selectedChat = chat || null;
 		},
