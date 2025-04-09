@@ -2,7 +2,7 @@
 	<v-container
 		fluid
 		class="fill-height d-flex flex-column pa-0 ">
-		<v-app-bar
+		<!-- <v-app-bar
 			dark
 			app
 			flat>
@@ -23,7 +23,7 @@
 			<v-toolbar-title class="font-weight-light">{{
 				matchUser?.name || "Chat"
 			}}</v-toolbar-title>
-		</v-app-bar>
+		</v-app-bar> -->
 		<v-col
 			cols="12"
 			lg="6"

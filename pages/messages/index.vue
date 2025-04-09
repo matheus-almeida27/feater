@@ -39,7 +39,10 @@
 				</template>
 
 				<template #append>
-					<v-icon size="30" color="purple" icon="mdi-chevron-right" />
+					<v-icon
+						size="30"
+						color="purple"
+						icon="mdi-chevron-right" />
 				</template>
 			</v-list-item>
 		</v-list>
@@ -47,8 +50,8 @@
 </template>
 
 <script lang="ts" setup>
+import { useLayout } from "vuetify";
 import type { Chat, User } from "~/types/types.global";
-
 // Acesso às stores
 const authStore = useAuthStore();
 const staticStore = useStaticStore(); // Supondo que os dados dos usuários estão aqui
@@ -121,7 +124,7 @@ function goToChat(match: Chat) {
 	max-width: 500px;
 }
 .match-item {
-	border: 1px solid #9B27B03E;
+	border: 1px solid #9b27b03e;
 }
 .match-name {
 	font-size: 18px;

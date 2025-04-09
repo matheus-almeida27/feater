@@ -1,6 +1,19 @@
 <template>
 	<v-app>
-		<slot />
+		<v-app-bar class="px-3">
+			<div class="d-flex align-center justify-center">
+				<v-img
+					height="35"
+					width="40"
+					contain
+					src="../public/feater.png" />
+				<span class="text-h6 font-weight-light ml-3">{{ routeName }}</span>
+			</div>
+			<v-spacer></v-spacer>
+		</v-app-bar>
+		<v-main>
+			<slot />
+		</v-main>
 		<v-bottom-navigation
 			fixed
 			mandatory
@@ -65,6 +78,14 @@ const onClick = (value: number | null) => {
 	const pathMapping = ["/messages", "/home", "/profile"];
 	if (pathMapping[value]) navigateTo(pathMapping[value]);
 };
+
+const routeName = computed(() => {
+	const currentRoute = router.currentRoute.value.name;
+	if (currentRoute === "messages") return "Mensagens";
+	if (currentRoute === "home") return "Feater";
+	if (currentRoute === "profile") return "Perfil";
+	return "";
+});
 </script>
 
 <style scoped lang="scss">
