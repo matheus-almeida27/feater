@@ -87,8 +87,14 @@
 		return matchUser?.name || "Usuário";
 	}
 	const getLastMessage = (match: Chat): string => {
-		const lastMessage = match.messages[match.messages.length - 1];
-		return lastMessage ? lastMessage.text : "";
+		let lastMessage = match.messages[match.messages.length - 1];
+		let msg = lastMessage
+			? lastMessage.sender === authStore.user?.id
+				? `Você: ${lastMessage.text}`
+				: lastMessage.text
+			: "";
+		msg = msg.length > 30 ? `${msg.substring(0, 30)}...` : msg;
+		return msg;
 	};
 
 	// Navega para o chat com o match
