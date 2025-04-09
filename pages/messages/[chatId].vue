@@ -1,8 +1,7 @@
 <template>
 	<v-container
 		fluid
-		class="fill-height d-flex flex-column pa-0 mx-auto">
-		<!-- Cabeçalho com informações do match -->
+		class="fill-height d-flex flex-column pa-0 ">
 		<v-app-bar
 			dark
 			app
@@ -33,7 +32,7 @@
 			<!-- Área de mensagens -->
 			<v-container
 				fluid
-				class="overflow-y-auto h-100 d-flex flex-column align-center">
+				class="overflow-y-auto h-100 d-flex flex-column align-center pa-0">
 				<v-list
 					class="pa-0 bg-transparent w-100"
 					two-line>
