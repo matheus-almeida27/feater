@@ -81,7 +81,7 @@ const onClick = (value: number | null) => {
 
 const routeName = computed(() => {
 	const currentRoute = router.currentRoute.value.name;
-	if (currentRoute === "messages") return "Mensagens";
+	if (currentRoute === "messages") return "Feats";
 	if (currentRoute === "home") return "Feater";
 	if (currentRoute === "profile") return "Perfil";
 	return "";
