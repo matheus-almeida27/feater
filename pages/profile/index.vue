@@ -15,7 +15,7 @@
 					class="mr-1 opacity-30"
 					>mdi-leaf</v-icon
 				>
-				<span class="opacity-60"> v 0.6.1 </span>
+				<span class="opacity-60"> v 0.6.4 </span>
 			</div>
 			<ProfileCard />
 			<v-btn

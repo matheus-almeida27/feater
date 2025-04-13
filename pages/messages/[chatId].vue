@@ -236,6 +236,7 @@
 	.message-container {
 		overflow-y: auto;
 		flex: 1;
+		padding-top: 70px !important; /* Altura do bottom-navigation */
 		padding-bottom: 45px !important; /* Altura do bottom-navigation */
 	}
 
