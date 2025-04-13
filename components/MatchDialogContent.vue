@@ -81,8 +81,8 @@
 					cols="12"
 					class="text-center">
 					<v-btn
-						color="purple-darken-2"
-						class="ma-4"
+						class="ma-4 border"
+						style="color: #fff; background: #170015"
 						variant="elevated"
 						rounded="xl"
 						size="x-large"
@@ -95,85 +95,85 @@
 	</div>
 </template>
 <script setup lang="ts">
-import type { Chat } from "~/types/types.global";
+	import type { Chat } from "~/types/types.global";
 
-const authStore = useAuthStore();
-const chatsStore = useChatsStore();
-const props = defineProps({
-	// Definindo as propriedades esperadas
-	matchInfo: {
-		type: Object,
-		default: () => null,
-	},
-});
+	const authStore = useAuthStore();
+	const chatsStore = useChatsStore();
+	const props = defineProps({
+		// Definindo as propriedades esperadas
+		matchInfo: {
+			type: Object,
+			default: () => null,
+		},
+	});
 
-const existingChat = chatsStore.chats.find(
-	(chat: Chat) =>
-		chat.participants.includes(Number(props.matchInfo.id)) &&
-		chat.participants.includes(Number(authStore?.user?.id))
-);
-
-const userImg = authStore.user?.profileImage || "";
-const emit = defineEmits(["close"]);
-const topTxt = props.matchInfo?.name?.split(" ")[0] + " também curtiu você!";
-
-// Navega para a rota de mensagens (defina a rota conforme sua aplicação)
-function goToMessages() {
 	const existingChat = chatsStore.chats.find(
 		(chat: Chat) =>
 			chat.participants.includes(Number(props.matchInfo.id)) &&
-			chat.participants.includes(Number(authStore?.user?.id))
+			chat.participants.includes(Number(authStore?.user?.id)),
 	);
-	emit("close");
-	navigateTo(`/messages/${existingChat?.id}`);
-}
+
+	const userImg = authStore.user?.profileImage || "";
+	const emit = defineEmits(["close"]);
+	const topTxt = props.matchInfo?.name?.split(" ")[0] + " também curtiu você!";
+
+	// Navega para a rota de mensagens (defina a rota conforme sua aplicação)
+	function goToMessages() {
+		const existingChat = chatsStore.chats.find(
+			(chat: Chat) =>
+				chat.participants.includes(Number(props.matchInfo.id)) &&
+				chat.participants.includes(Number(authStore?.user?.id)),
+		);
+		emit("close");
+		navigateTo(`/messages/${existingChat?.id}`);
+	}
 </script>
 
 <style scoped>
-.match-dialog {
-	background: linear-gradient(135deg, #170829 0%, #2f0f49 100%);
-	min-height: 100vh;
-	color: #fff;
-	display: flex;
-	align-items: center;
-}
+	.match-dialog {
+		background: linear-gradient(138deg, #170015 0%, #0d000c 100%);
+		min-height: 100vh;
+		color: #fff;
+		display: flex;
+		align-items: center;
+	}
 
-.match-header h2 {
-	font-size: 2.5rem;
-	margin-top: 20px;
-}
+	.match-header h2 {
+		font-size: 2.5rem;
+		margin-top: 20px;
+	}
 
-/* Texto para colaboração */
-.collaboration-text {
-	font-size: 1.2rem;
-	margin-top: 20px;
-}
+	/* Texto para colaboração */
+	.collaboration-text {
+		font-size: 1.2rem;
+		margin-top: 20px;
+	}
 
-/* Animação slide-fade para as fotos */
-.slide-fade-enter-active,
-.slide-fade-leave-active {
-	transition: all 0.5s ease;
-}
-.slide-fade-enter,
-.slide-fade-leave-to {
-	transform: translateY(20px);
-	opacity: 0;
-}
+	/* Animação slide-fade para as fotos */
+	.slide-fade-enter-active,
+	.slide-fade-leave-active {
+		transition: all 0.5s ease;
+	}
+	.slide-fade-enter,
+	.slide-fade-leave-to {
+		transform: translateY(20px);
+		opacity: 0;
+	}
 
-/* Animação fade para o cabeçalho */
-.fade-enter-active,
-.fade-leave-active {
-	transition: opacity 0.5s;
-}
-.fade-enter,
-.fade-leave-to {
-	opacity: 0;
-}
+	/* Animação fade para o cabeçalho */
+	.fade-enter-active,
+	.fade-leave-active {
+		transition: opacity 0.5s;
+	}
+	.fade-enter,
+	.fade-leave-to {
+		opacity: 0;
+	}
 
-/* Ajuste dos avatares */
-.avatars {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
+	/* Ajuste dos avatares */
+	.avatars {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
 </style>

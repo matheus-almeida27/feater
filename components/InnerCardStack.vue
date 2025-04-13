@@ -76,7 +76,7 @@ img {
 	width: 100%;
 	max-width: 350px;
 	border-radius: 15px;
-	background: linear-gradient(135deg, #170829 0%, #2f0f49 100%);
+	background: linear-gradient(138deg, #170015 0%, #0d000c 100%);
 	color: white;
 	text-align: center;
 	padding: 20px;
@@ -86,6 +86,8 @@ img {
 	align-items: center;
 	transition: all 0.3s ease-in-out;
 	position: relative;
+
+	box-shadow: 0 8px 16px rgba(27, 27, 27, 0.5);
 }
 
 .card-content {

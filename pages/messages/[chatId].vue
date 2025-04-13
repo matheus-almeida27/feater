@@ -12,27 +12,39 @@
 		</v-btn>
 		<div
 			@click="openMatchedProfile"
-			:ripple="true"
-			class="d-flex w-100 align-center cursor-pointer">
+			v-ripple="true"
+			class="d-flex w-100 h-100 align-center cursor-pointer rounde-pill">
 			<v-avatar
 				size="40"
 				class="ml-0 mr-3">
 				<v-img
 					contain
-					:src="matchUser?.profileImage || ''"
-					:alt="matchUser?.name" />
+					:src="matchedUser?.profileImage || ''"
+					:alt="matchedUser?.name" />
 			</v-avatar>
 			<v-toolbar-title class="font-weight-light">{{
-				matchUser?.name || "Chat"
+				matchedUser?.name || "Chat"
 			}}</v-toolbar-title>
 		</div>
 	</v-app-bar>
 	<!-- um dialog para exibir as informações do perfil do usuário que deu match -->
 	<v-dialog
 		v-model="profileDialog"
-		max-width="600px"
-		transition="dialog-transition">
-		<profile-card />
+		transition="dialog-bottom-transition"
+		:content-class="'bg-surface d-flex justify-center align-center'"
+		class="d-flex justify-center align-center"
+		fullscreen>
+		<v-col
+			cols="12"
+			sm="7"
+			md="6"
+			lg="4"
+			xl="3"
+			class="d-flex justify-center align-center ma-0 pa-0">
+			<profile-card
+				:matchedUser
+				@close="profileDialog = false" />
+		</v-col>
 	</v-dialog>
 
 	<v-container
@@ -74,8 +86,11 @@
 	<!-- Campo de texto fixado -->
 	<v-bottom-navigation
 		app
-		height="auto">
-		<div class="input-wrapper">
+		height="auto"
+		class="bg-transparent">
+		<div
+			class="input-wrapper"
+			@click="scrollToBottom()">
 			<v-text-field
 				v-model="newMessage"
 				placeholder="Digite sua mensagem..."
@@ -119,7 +134,7 @@
 		router.push("/matches");
 	}
 
-	const matchUser = computed(() => {
+	const matchedUser = computed(() => {
 		const currentUserId = authStore.user?.id;
 		const otherUserId = chat?.participants.find((id: number) => id !== currentUserId);
 		return staticStore.users.find((user: User) => user.id === otherUserId);
@@ -154,7 +169,27 @@
 
 		chat.messages.push(message);
 		newMessage.value = "";
-
+		let randomResponses = [
+			"Sim, concordo!",
+			"Beleza, bora f1 então!",
+			"Claro, bora!",
+			"Com certeza meu mano",
+			"vambora cpx!",
+			"Vamos lá!",
+		];
+		setTimeout(() => {
+			// simule o envio de uma mensagem de resposta do outro usuário
+			const responseMessage: Message = {
+				id: Date.now() + 1,
+				chatId: chat.id,
+				sender: matchedUser.value?.id || 0,
+				// na mensagem abaixo envia algo aleatorio entre "sim, concordo, beleza bora f1 então" e outras 5 respostas aleatórias básicas
+				text: randomResponses[Math.floor(Math.random() * randomResponses.length)],
+				timestamp: new Date().toISOString(),
+			};
+			chat.messages.push(responseMessage);
+			scrollToBottom();
+		}, 1200);
 		// Scroll para a última mensagem
 		scrollToBottom();
 	}
@@ -168,22 +203,22 @@
 	}
 
 	function openMatchedProfile() {
-		if (matchUser.value) {
+		if (matchedUser.value) {
 			// Passa o usuário correspondente para o componente de perfil
-			matchedUserId.value = matchUser.value.id;
+			matchedUserId.value = matchedUser.value.id;
 			profileDialog.value = true;
 		}
 	}
 
 	function goBack() {
-		router.back();
+		navigateTo("/messages");
 	}
 
 	// Scroll automático ao carregar mensagens
 	onMounted(() => {
 		nextTick(() => {
 			messageContainer = document.getElementById("message_container");
-			// scrollToBottom();
+			scrollToBottom();
 		});
 	});
 </script>

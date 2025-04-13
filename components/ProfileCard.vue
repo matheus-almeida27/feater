@@ -1,15 +1,32 @@
 <template>
 	<v-card class="w-100 rounded-xl">
 		<v-card-title
-			class="pt-3 pl-5 font-weight-light text-h4 mb-2 d-flex justify-space-between align-center">
-			<span> Perfil </span>
+			class="pt-3 pl-5 font-weight-light text-h4 mb-2 d-flex  align-center">
+			<span
+				v-if="matchedUser"
+				class="text-truncate">
+				{{ matchedUser.name?.split(" ")[0] || "Perfil" }}
+			</span>
+			<v-spacer />
 			<v-btn
+				v-if="!matchedUser"
 				color="purple-darken-3"
 				@click="saveProfile"
 				variant="elevated"
 				class="pr-4 pl-3"
 				rounded="xl"
 				><v-icon class="mr-2">mdi-check</v-icon> Salvar</v-btn
+			>
+			<v-btn
+				v-else
+				@click="close()"
+				icon
+				rounded="xl"
+				size="small"
+				variant="elevated"
+				color="purple-darken-3">
+				<v-icon class=""> mdi-chevron-down </v-icon>
+				</v-btn
 			>
 		</v-card-title>
 		<v-card-text class="pb-5">
@@ -26,6 +43,7 @@
 				</v-img>
 			</v-row>
 			<v-row
+				v-if="!matchedUser"
 				no-gutters
 				class="mb-4 justify-center">
 				<v-btn
@@ -52,6 +70,7 @@
 					>Remover foto</v-btn
 				>
 				<v-file-input
+					:readonly="!!matchedUser"
 					class="d-none"
 					ref="fileInputRef"
 					hide-details
@@ -67,8 +86,10 @@
 			<!-- Nome do Usuário -->
 			<v-text-field
 				v-model="userFullName"
+				:readonly="!!matchedUser"
 				variant="solo"
 				label="Nome"
+				rounded="xl"
 				class="mb-3"
 				hide-details
 				outlined
@@ -76,7 +97,11 @@
 			<!-- Biografia -->
 			<v-textarea
 				label="Biografia"
+				rounded="xl"
 				v-model="bio"
+				:rules="[(v) => v.length <= 200 || 'Máximo: 200 caracteres']"
+				auto-grow
+				:readonly="!!matchedUser"
 				variant="solo"
 				rows="3"
 				outlined></v-textarea>
@@ -87,9 +112,12 @@
 				:items="staticStore?.genres"
 				label="Gêneros Musicais"
 				multiple
+				rounded="xl"
+				:menu-icon="matchedUser ? false : '$dropdown '"
+				:readonly="!!matchedUser"
 				return-object
 				item-title="nome"
-				closable-chips
+				:closable-chips="!matchedUser"
 				variant="solo"
 				chips
 				outlined
@@ -98,17 +126,25 @@
 			<!-- Endereço -->
 			<AddressInput
 				@updateLocation="updateLocation"
-				:location />
+				:location
+				:blocked="Boolean(matchedUser)" />
 		</v-card-text>
 	</v-card>
 </template>
 
 <script setup>
+	const props = defineProps({
+		matchedUser: {
+			type: Object,
+			required: false,
+		},
+	});
+	const emit = defineEmits(["close"]);
 	const authStore = useAuthStore();
 	const staticStore = useStaticStore();
 
-	const userAuth = authStore.user;
-	const authUserId = authStore.user?.id;
+	const userContext = props.matchedUser || authStore.user;
+	const authUserId = props.matchedUser?.id || authStore.user?.id;
 
 	const fileInputRef = ref();
 
@@ -116,10 +152,18 @@
 
 	const importedImage = ref();
 	const importedImgUrl = ref("");
-	const userFullName = ref(userAuth?.name || "");
-	const bio = ref(userAuth?.bio || "");
-	const selectedGenres = ref(userAuth?.favoriteGenres || []);
-	const location = ref(userAuth?.location || {});
+	const userFullName = ref(userContext?.name || "");
+	const bio = ref(userContext?.bio || "");
+	const selectedGenres = ref(userContext?.favoriteGenres || []);
+	const location = ref(userContext?.location || {});
+
+	const userImage = computed(() => {
+		return (
+			importedImgUrl.value ||
+			userContext.profileImage ||
+			"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1JvoWVGditC7vWDv3xQmKMlICOgg3Igw4aw&s"
+		);
+	});
 
 	const limitGenres = (value) => {
 		if (value.length > 3) {
@@ -127,14 +171,6 @@
 		}
 		return true;
 	};
-
-	const userImage = computed(() => {
-		return (
-			importedImgUrl.value ||
-			authStore.user?.profileImage ||
-			"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1JvoWVGditC7vWDv3xQmKMlICOgg3Igw4aw&s"
-		);
-	});
 
 	// FUNÇÕES INICIAIS
 	onMounted(() => {
@@ -166,6 +202,10 @@
 	const updateLocation = (loc) => {
 		location.value = loc;
 	};
+
+	function close() {
+		emit("close");
+	}
 
 	function saveProfile() {
 		// Implemente a lógica de salvamento do perfil aqui

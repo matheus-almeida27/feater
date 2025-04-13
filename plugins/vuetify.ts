@@ -9,6 +9,14 @@ export default defineNuxtPlugin((app) => {
 	const vuetify = createVuetify({
 		theme: {
 			defaultTheme: "dark",
+			themes: {
+				dark: {
+					colors: {
+						background: "#0d000c",
+						surface: "#170015",
+					},
+				},
+			},
 		},
 		icons: {
 			defaultSet: "mdi",
