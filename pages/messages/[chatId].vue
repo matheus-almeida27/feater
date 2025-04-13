@@ -46,41 +46,41 @@
 				@close="profileDialog = false" />
 		</v-col>
 	</v-dialog>
-		<v-container
-			fluid
-			class="overflow-y-auto d-flex flex-column align-center pa-0 message-container"
-			id="message_container">
-			<v-col
-				cols="12"
-				lg="6"
-				md="8"
-				class="d-flex justify-center pb-0">
-				<v-list
-					class="pa-0 bg-transparent w-100"
-					two-line>
-					<div
-						v-for="message in chat?.messages || []"
-						:key="message.id"
-						@click="showMessageTime = !showMessageTime"
-						:class="{
-							sent: message.sender === authStore.user?.id,
-							received: message.sender !== authStore.user?.id,
-						}"
-						class="message-item">
-						<div class="message-text">
-							{{ message.text }}
-							<v-expand-transition>
-								<div
-									class="message-time"
-									v-if="showMessageTime">
-									{{ formatTimestamp(message.timestamp) }}
-								</div>
-							</v-expand-transition>
-						</div>
+	<v-container
+		id="message_container"
+		fluid
+		class="overflow-y-auto h-100 d-flex flex-column align-center pa-0 message-container">
+		<v-col
+			cols="12"
+			lg="6"
+			md="8"
+			class="d-flex justify-center pb-0">
+			<v-list
+				class="pa-0 bg-transparent w-100"
+				two-line>
+				<div
+					v-for="message in chat?.messages || []"
+					:key="message.id"
+					@click="showMessageTime = !showMessageTime"
+					:class="{
+						sent: message.sender === authStore.user?.id,
+						received: message.sender !== authStore.user?.id,
+					}"
+					class="message-item">
+					<div class="message-text">
+						{{ message.text }}
+						<v-expand-transition>
+							<div
+								class="message-time"
+								v-if="showMessageTime">
+								{{ formatTimestamp(message.timestamp) }}
+							</div>
+						</v-expand-transition>
 					</div>
-				</v-list>
-			</v-col>
-		</v-container>
+				</div>
+			</v-list>
+		</v-col>
+	</v-container>
 	<!-- Campo de texto fixado -->
 	<v-bottom-navigation
 		app
