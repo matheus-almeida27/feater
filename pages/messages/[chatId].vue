@@ -46,7 +46,6 @@
 				@close="profileDialog = false" />
 		</v-col>
 	</v-dialog>
-	<v-main>
 		<v-container
 			fluid
 			class="overflow-y-auto d-flex flex-column align-center pa-0 message-container"
@@ -82,7 +81,6 @@
 				</v-list>
 			</v-col>
 		</v-container>
-	</v-main>
 	<!-- Campo de texto fixado -->
 	<v-bottom-navigation
 		app
@@ -230,7 +228,9 @@
 	}
 	.message-container {
 		overflow-y: auto;
-		max-height: calc(100vh - 128px); /* Ajusta conforme altura do app-bar e footer */
+		padding-top: 66px !important; /* Ajusta conforme altura do app-bar */
+		padding-bottom: 66px !important; /* Ajusta conforme altura do app-bar */
+		// max-height: calc(100vh - 128px); /* Ajusta conforme altura do app-bar e footer */
 		flex: 1;
 	}
 

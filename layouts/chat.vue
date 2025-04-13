@@ -1,6 +1,8 @@
 <template>
 	<v-app>
-		<slot />
+		<!-- <v-main> -->
+			<slot />
+		<!-- </v-main> -->
 	</v-app>
 </template>
 
