@@ -22,9 +22,10 @@
 				@click="close()"
 				icon
 				rounded="xl"
+				class="border"
 				size="small"
 				variant="elevated"
-				color="purple-darken-3">
+				color="surface">
 				<v-icon class=""> mdi-chevron-down </v-icon>
 				</v-btn
 			>

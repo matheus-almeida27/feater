@@ -13,7 +13,7 @@
 				<span
 					v-for="(genre, index) in genres"
 					:key="index"
-					class="genre-tag mb-2">
+					class="genre-tag border mb-2">
 					{{ genre.nome }}
 				</span>
 			</div>
@@ -124,16 +124,14 @@ img {
 }
 
 .genre-tag {
-	background: rgba(255, 255, 255, 0.2);
+	background: linear-gradient(138deg, #170015 0%, #0d000c 100%);
 	padding: 5px 10px;
 	border-radius: 20px;
 	font-size: 12px;
+	backdrop-filter: blur(10px);
 }
 
 .card-bio {
-	// margin-top: 10px;
-	// padding: 10px;
-	// border-top: 1px solid rgba(255, 255, 255, 0.2);
 	font-size: 14px;
 	color: #ddd;
 }

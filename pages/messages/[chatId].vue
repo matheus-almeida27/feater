@@ -3,7 +3,13 @@
 	<v-app-bar
 		dark
 		app
-		flat>
+		flat
+		:style="
+			 {
+				background: 'transparent',
+				backdropFilter: 'blur(5px)'
+			}
+		">
 		<v-btn
 			icon
 			size="large"
@@ -27,7 +33,7 @@
 			}}</v-toolbar-title>
 		</div>
 	</v-app-bar>
-	<!-- um dialog para exibir as informações do perfil do usuário que deu match -->
+
 	<v-dialog
 		v-model="profileDialog"
 		transition="dialog-bottom-transition"
@@ -49,25 +55,28 @@
 	<v-container
 		id="message_container"
 		fluid
-		class="overflow-y-auto h-100 d-flex flex-column align-center pa-0 message-container">
+		class="overflow-y-auto d-flex align-center flex-column pa-0 message-container"
+		ref="messageContainer">
 		<v-col
 			cols="12"
 			lg="6"
 			md="8"
-			class="d-flex justify-center pb-0">
+			sm="10"
+			class="d-flex justify-center">
 			<v-list
 				class="pa-0 bg-transparent w-100"
 				two-line>
 				<div
 					v-for="message in chat?.messages || []"
 					:key="message.id"
-					@click="showMessageTime = !showMessageTime"
 					:class="{
 						sent: message.sender === authStore.user?.id,
 						received: message.sender !== authStore.user?.id,
 					}"
 					class="message-item">
-					<div class="message-text">
+					<div
+						class="message-text"
+						@click="showMessageTime = !showMessageTime">
 						{{ message.text }}
 						<v-expand-transition>
 							<div
@@ -81,14 +90,13 @@
 			</v-list>
 		</v-col>
 	</v-container>
+
 	<!-- Campo de texto fixado -->
 	<v-bottom-navigation
 		app
-		height="auto"
-		class="bg-transparent">
-		<div
-			class="input-wrapper"
-			@click="scrollToBottom()">
+		class="glass-effect"
+		height="auto">
+		<div class="input-wrapper">
 			<v-text-field
 				v-model="newMessage"
 				placeholder="Digite sua mensagem..."
@@ -118,10 +126,9 @@
 	const authStore = useAuthStore();
 	const staticStore = useStaticStore();
 	const chatsStore = useChatsStore();
-	const showMessageTime = ref(false);
 	const profileDialog = ref(false);
+	const showMessageTime = ref(false);
 	const matchedUserId = ref();
-
 	const route = useRoute();
 	const router = useRouter();
 	const chatId = Number(route.params.chatId);
@@ -142,7 +149,6 @@
 	let messageContainer: any;
 
 	function formatTimestamp(timestamp: string): string {
-		//formatar o timestamp para exibir no formato DD MES AA HH:mm
 		const date = new Date(timestamp);
 		const options: Intl.DateTimeFormatOptions = {
 			day: "2-digit",
@@ -188,6 +194,7 @@
 			chat.messages.push(responseMessage);
 			scrollToBottom();
 		}, 1200);
+
 		// Scroll para a última mensagem
 		scrollToBottom();
 	}
@@ -228,14 +235,12 @@
 	}
 	.message-container {
 		overflow-y: auto;
-		padding-top: 66px !important; /* Ajusta conforme altura do app-bar */
-		padding-bottom: 66px !important; /* Ajusta conforme altura do app-bar */
-		// max-height: calc(100vh - 128px); /* Ajusta conforme altura do app-bar e footer */
 		flex: 1;
+		padding-bottom: 45px !important; /* Altura do bottom-navigation */
 	}
 
 	.message-item {
-		display: flex !important;
+		display: flex;
 		flex-direction: column;
 		margin-bottom: 12px;
 	}
@@ -251,14 +256,12 @@
 	}
 
 	.message-text {
-		background: #001837;
+		background: #0f002d;
 		border-radius: 12px;
-		padding: 4px 10px;
-		// white-space: pre-wrap !important;
-		// overflow: visible !important;
+		padding: 8px 12px;
 		word-wrap: break-word;
 		min-width: 40px;
-		max-width: 65%;
+		max-width: 70%;
 		display: inline-block;
 	}
 
@@ -269,8 +272,14 @@
 	.message-time {
 		font-size: 0.75rem;
 		color: #8f8f8f;
-		margin-top: 1px;
+		margin-top: 2px;
 		font-style: italic;
+	}
+
+	.glass-effect {
+		padding-top: 4px;
+		backdrop-filter: blur(10px);
+		background: transparent;
 	}
 
 	.input-wrapper {

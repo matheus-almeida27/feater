@@ -1,6 +1,11 @@
 <template>
 	<v-app>
-		<v-app-bar class="px-3">
+		<v-app-bar
+			class="px-3"
+			:style="{
+				background: 'transparent',
+				backdropFilter: 'blur(5px)',
+			}">
 			<div class="d-flex align-center justify-center">
 				<v-img
 					height="35"
@@ -20,6 +25,10 @@
 			@update:model-value="onClick"
 			v-model="navigationValue"
 			color="purple"
+			:style="{
+				background: 'transparent',
+				backdropFilter: 'blur(10px)',
+			}"
 			grow>
 			<v-btn
 				:ripple="false"
@@ -49,49 +58,49 @@
 </template>
 
 <script lang="ts" setup>
-const navigationValue = ref<number | null>(null);
-const router = useRouter();
-const authStore = useAuthStore();
-const routeMapping: Record<string, number> = {
-	messages: 0,
-	home: 1,
-	profile: 2,
-};
+	const navigationValue = ref<number | null>(null);
+	const router = useRouter();
+	const authStore = useAuthStore();
+	const routeMapping: Record<string, number> = {
+		messages: 0,
+		home: 1,
+		profile: 2,
+	};
 
-watch(
-	() => router.currentRoute.value.name,
-	(route) => {
-		navigationValue.value = route ? routeMapping[route as string] ?? null : null;
-	},
-	{ immediate: true }
-);
+	watch(
+		() => router.currentRoute.value.name,
+		(route) => {
+			navigationValue.value = route ? routeMapping[route as string] ?? null : null;
+		},
+		{ immediate: true },
+	);
 
-const onClick = (value: number | null) => {
-	if (value === null) return;
-	if (router.currentRoute.value.path == "/profile" && !validUserProfile(authStore.user)) {
-		alert("Você precisa completar seu perfil antes de continuar.");
-		nextTick(() => {
-			navigationValue.value = 2;
-		});
-		return;
-	}
-	const pathMapping = ["/messages", "/home", "/profile"];
-	if (pathMapping[value]) navigateTo(pathMapping[value]);
-};
+	const onClick = (value: number | null) => {
+		if (value === null) return;
+		if (router.currentRoute.value.path == "/profile" && !validUserProfile(authStore.user)) {
+			alert("Você precisa completar seu perfil antes de continuar.");
+			nextTick(() => {
+				navigationValue.value = 2;
+			});
+			return;
+		}
+		const pathMapping = ["/messages", "/home", "/profile"];
+		if (pathMapping[value]) navigateTo(pathMapping[value]);
+	};
 
-const routeName = computed(() => {
-	const currentRoute = router.currentRoute.value.name;
-	if (currentRoute === "messages") return "Feats";
-	if (currentRoute === "home") return "Feater";
-	if (currentRoute === "profile") return "Perfil";
-	return "";
-});
+	const routeName = computed(() => {
+		const currentRoute = router.currentRoute.value.name;
+		if (currentRoute === "messages") return "Feats";
+		if (currentRoute === "home") return "Feater";
+		if (currentRoute === "profile") return "Perfil";
+		return "";
+	});
 </script>
 
 <style scoped lang="scss">
-.leaf {
-	&.off {
-		filter: grayscale(80%);
+	.leaf {
+		&.off {
+			filter: grayscale(80%);
+		}
 	}
-}
 </style>
