@@ -32,14 +32,14 @@
 				<v-icon class=""> mdi-chevron-down </v-icon>
 			</v-btn>
 		</v-card-title>
-		<v-card-text class="pb-5">
+		<v-card-text class="pb-5 px-0">
 			<v-row
 				no-gutters
 				class="mb-4">
 				<v-img
 					:src="userImage"
 					contain
-					cover
+					transition="slide-y-reverse-transition"
 					rounded="xl"
 					max-height="400"
 					min-height="200">

@@ -1,8 +1,9 @@
 <template>
 	<div class="inner-card">
 		<div class="card-content">
-			<img
+			<v-img
 				draggable="false"
+				cover
 				v-if="card.profileImage"
 				:src="card.profileImage"
 				alt="Imagem"
@@ -74,8 +75,9 @@ img {
 }
 .inner-card {
 	width: 100%;
-	max-width: 350px;
+	max-width: 400px;
 	border-radius: 15px;
+
 	background: linear-gradient(138deg, #170015 0%, #0d000c 100%);
 	color: white;
 	text-align: center;

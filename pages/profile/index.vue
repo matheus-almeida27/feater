@@ -8,7 +8,7 @@
 			md="8"
 			lg="5"
 			xl="4"
-			class="d-flex align-center pt-0 justify-center flex-column">
+			class="d-flex align-center px-1 pt-0 justify-center flex-column">
 			<ProfileCard />
 			<v-btn
 				@click="logout"

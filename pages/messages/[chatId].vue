@@ -54,17 +54,16 @@
 		fluid
 		class="overflow-y-auto d-flex align-center flex-column pa-0 message-container">
 		<v-col
-			id="message_container"
 			cols="12"
 			lg="6"
 			md="8"
 			sm="10"
 			class="d-flex justify-center">
 			<v-list
-				class="pa-0 bg-transparent w-100"
+			class="pa-0 bg-transparent w-100"
 				two-line>
 				<div
-					v-for="message in chat?.messages || []"
+				v-for="message in chat?.messages || []"
 					:key="message.id"
 					:class="{
 						sent: message.sender === authStore.user?.id,

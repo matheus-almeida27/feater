@@ -41,6 +41,7 @@
 							:key="'userPhoto'">
 							<v-img
 								contain
+								transition="slide-x-transition"
 								height="150"
 								width="150"
 								:src="userImg"
@@ -52,6 +53,7 @@
 							:key="'matchPhoto'">
 							<v-img
 								contain
+								transition="slide-x-reverse-transition"
 								height="150"
 								width="150"
 								:src="matchInfo?.profileImage"
