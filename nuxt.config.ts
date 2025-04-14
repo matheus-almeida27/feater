@@ -5,7 +5,7 @@ export default defineNuxtConfig({
 	app: {
 		head: {
 			title: "Feater",
-			link: [{ rel: "icon", type: "image/png", href: "/feater.png" }],
+			link: [{ rel: "icon", type: "image/png", href: "/public/feater.png" }],
 		},
 		baseURL: "/feater/", // baseURL: '/<repository>/'
 		buildAssetsDir: "assets",
