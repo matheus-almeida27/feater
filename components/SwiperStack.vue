@@ -1,4 +1,11 @@
 <template>
+	<v-btn
+		@click="openFilters"
+		variant="text"
+		class="filters-btn"
+		icon
+		><v-icon color="#fff">mdi-tune-variant</v-icon>
+	</v-btn>
 	<div class="card-stack w-100">
 		<v-dialog
 			v-model="matchDialog"
@@ -7,7 +14,15 @@
 			<MatchDialogContent
 				v-if="matchDialog"
 				:match-info
-				@close="onCLoseMatch" />
+				@close="onCloseMatch" />
+		</v-dialog>
+		<v-dialog
+			v-model="filtersDialog"
+			persistent
+			content-class="d-flex justify-center align-center">
+			<FiltersDialogContent
+				@save=""
+				@close="onCloseFilters" />
 		</v-dialog>
 		<v-scale-transition hide-on-leave>
 			<div
@@ -57,6 +72,7 @@ const showBio = ref(false);
 const cards = ref([...users.value.filter((user) => user.id !== authStore?.user?.id)]);
 
 const matchDialog = ref(false);
+const filtersDialog = ref(false);
 let startX = 0;
 let currentX = 0;
 let isDragging = false;
@@ -155,7 +171,15 @@ const checkMatch = (swipedCard: User) => {
 	}
 };
 
-const onCLoseMatch = () => {
+const openFilters = () => {
+	filtersDialog.value = true;
+};
+
+const onCloseFilters = () => {
+	filtersDialog.value = false;
+};
+
+const onCloseMatch = () => {
 	matchDialog.value = false;
 	matchInfo.value = null;
 };
@@ -202,5 +226,13 @@ const onCLoseMatch = () => {
 
 .card:not(.card-active) {
 	z-index: 5;
+}
+.filters-btn {
+	position: fixed;
+	z-index: 99999 !important;
+	right: 4px;
+	top: 4px;
+	margin-top: 10px;
+	margin-right: 10px;
 }
 </style>

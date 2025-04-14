@@ -119,7 +119,7 @@
 				:menu-icon="matchedUser ? false : '$dropdown '"
 				:readonly="!!matchedUser"
 				return-object
-				item-title="nome"
+				item-title="name"
 				:closable-chips="!matchedUser"
 				variant="solo"
 				chips

@@ -3,7 +3,7 @@ export type User = {
 	name?: string;
 	profileImage?: string;
 	bio?: string;
-	favoriteGenres: { id: number; nome: string }[];
+	favoriteGenres: { id: number; name: string }[];
 	username?: string;
 	password?: string;
 	likedUsers: number[];
@@ -29,4 +29,8 @@ export type Message = {
 	sender: number;
 	text: string;
 	timestamp: string; // Formato ISO 8601, ex: "2023-10-01T12:00:00Z"
+};
+export type Genre = {
+	id: number;
+	name: string;
 };

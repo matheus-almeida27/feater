@@ -15,7 +15,7 @@
 					v-for="(genre, index) in genres"
 					:key="index"
 					class="genre-tag border mb-2">
-					{{ genre.nome }}
+					{{ genre.name }}
 				</span>
 			</div>
 		</div>
