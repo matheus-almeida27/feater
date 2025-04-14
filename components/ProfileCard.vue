@@ -1,7 +1,19 @@
 <template>
+	<v-btn
+		v-if="!matchedUser"
+		color="deep-purple-darken-1"
+		@click="saveProfile"
+		variant="tonal"
+		class="save-btn text-white"
+		rounded="xl"
+		><v-icon
+			class="mr-2"
+			color="#fff"
+			>mdi-check</v-icon
+		><span class="text-white"> Salvar </span>
+	</v-btn>
 	<v-card class="w-100 rounded-xl">
-		<v-card-title
-			class="pt-3 pl-5 font-weight-light text-h4 mb-2 d-flex  align-center">
+		<v-card-title class="pt-3 pl-5 font-weight-light text-h4 mb-2 d-flex align-center">
 			<span
 				v-if="matchedUser"
 				class="text-truncate">
@@ -9,16 +21,7 @@
 			</span>
 			<v-spacer />
 			<v-btn
-				v-if="!matchedUser"
-				color="purple-darken-3"
-				@click="saveProfile"
-				variant="elevated"
-				class="pr-4 pl-3"
-				rounded="xl"
-				><v-icon class="mr-2">mdi-check</v-icon> Salvar</v-btn
-			>
-			<v-btn
-				v-else
+				v-if="matchedUser"
 				@click="close()"
 				icon
 				rounded="xl"
@@ -27,8 +30,7 @@
 				variant="elevated"
 				color="surface">
 				<v-icon class=""> mdi-chevron-down </v-icon>
-				</v-btn
-			>
+			</v-btn>
 		</v-card-title>
 		<v-card-text class="pb-5">
 			<v-row
@@ -162,7 +164,7 @@
 		return (
 			importedImgUrl.value ||
 			userContext.profileImage ||
-			"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1JvoWVGditC7vWDv3xQmKMlICOgg3Igw4aw&s"
+			"https://media.gq.com/photos/6255cb439aa7a6f3a12583da/master/w_1600%2Cc_limit/GQ0522_Future_11.jpg"
 		);
 	});
 
@@ -228,4 +230,17 @@
 	}
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+	.v-card {
+		background-color: var(--v-theme-surface);
+	}
+
+	.save-btn {
+		position: fixed;
+		z-index: 99999 !important;
+		right: 4px;
+		top: 4px;
+		margin-top: 10px;
+		margin-right: 10px;
+	}
+</style>

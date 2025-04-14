@@ -4,12 +4,10 @@
 		dark
 		app
 		flat
-		:style="
-			 {
-				background: 'transparent',
-				backdropFilter: 'blur(5px)'
-			}
-		">
+		:style="{
+			background: 'transparent',
+			backdropFilter: 'blur(5px)',
+		}">
 		<v-btn
 			icon
 			size="large"
@@ -53,11 +51,10 @@
 		</v-col>
 	</v-dialog>
 	<v-container
-		id="message_container"
 		fluid
-		class="overflow-y-auto d-flex align-center flex-column pa-0 message-container"
-		ref="messageContainer">
+		class="overflow-y-auto d-flex align-center flex-column pa-0 message-container">
 		<v-col
+			id="message_container"
 			cols="12"
 			lg="6"
 			md="8"
@@ -118,7 +115,6 @@
 	definePageMeta({
 		layout: "chat",
 	});
-	import { ref, computed, onMounted, nextTick } from "vue";
 	import { useRoute, useRouter } from "vue-router";
 	import type { Chat, User, Message } from "~/types/types.global";
 
