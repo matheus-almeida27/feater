@@ -27,6 +27,7 @@ export default defineNuxtConfig({
 		"@nuxt/icon",
 		"@nuxt/image",
 		"@nuxt/scripts",
+		"@vite-pwa/nuxt",
 		"@pinia/nuxt",
 		"pinia-plugin-persistedstate/nuxt",
 		(_options, nuxt) => {
