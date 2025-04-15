@@ -10,7 +10,7 @@
 				<span class="text-truncate"> Filtros </span>
 				<v-spacer />
 				<v-btn
-					@click="close()"
+					@click="emit('close')"
 					icon
 					rounded="xl"
 					size="small"
@@ -70,18 +70,17 @@
 	</v-col>
 </template>
 <script setup lang="ts">
-const emit = defineEmits(["save", "close"]);
+	const emit = defineEmits(["close"]);
 
-const showNearby = ref(true);
-const selectedGenres = ref([]);
-const staticStore = useStaticStore();
-
-const save = () => {
-	// emit("save");
-};
-const close = () => {
-	emit("close");
-};
+	const showNearby = ref(useFiltersStore().nearbyUsers);
+	const selectedGenres = ref([]);
+	const staticStore = useStaticStore();
+	const filtersStore = useFiltersStore();
+	const save = () => {
+		filtersStore.nearbyUsers = showNearby.value;
+		filtersStore.genres = selectedGenres.value;
+		emit("close");
+	};
 </script>
 
 <style scoped></style>

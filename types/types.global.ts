@@ -3,7 +3,7 @@ export type User = {
 	name?: string;
 	profileImage?: string;
 	bio?: string;
-	favoriteGenres: { id: number; name: string }[];
+	favoriteGenres: Genre[];
 	username?: string;
 	password?: string;
 	likedUsers: number[];
