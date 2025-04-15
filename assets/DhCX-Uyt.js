@@ -1,0 +1,1 @@
+import{N as t,aE as n}from"./D5DpnNe1.js";const o=t({class:[String,Array,Object],style:{type:[String,Array,Object],default:null}},"component");function a(e){const r=n("useRender");r.render=e}export{o as m,a as u};
