@@ -224,8 +224,7 @@
 	}
 
 	function resetCardsStack() {
-		// cards.value = [...users.value.filter((user) => user.id !== authStore?.user?.id)];
-	}
+		cards.value = filteredUsers();	}
 
 	const checkMatch = (swipedCard: User) => {
 		// Lógica para verificar se houve match
