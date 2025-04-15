@@ -14,10 +14,18 @@
 				<span
 					v-for="(genre, index) in genres"
 					:key="index"
-					class="genre-tag border mb-2">
+					:class="['genre-tag border mb-2 ', { 'is-favorite': isFavoriteGenre(genre) }]">
 					{{ genre.name }}
 				</span>
 			</div>
+			<!-- <div class="card-genres">
+				<span
+					v-for="(genre, index) in genres"
+					:key="index"
+					class="genre-tag border mb-2">
+					{{ genre.name }}
+				</span>
+			</div> -->
 		</div>
 
 		<!-- Bio -->
@@ -52,9 +60,15 @@ const props = defineProps({
 	},
 });
 
+const user = useAuthStore().user;
+
 const genres = computed(() => {
 	return props.card.favoriteGenres || [];
 });
+const isFavoriteGenre = (genre: any) => {
+	console.log("🚀 ~ isFavoriteGenre ~ user?.favoriteGenres.some((g: any) => g.id === genre.id):", user?.favoriteGenres.some((g: any) => g.id === genre.id))
+	return user?.favoriteGenres.some((g: any) => g.name.includes(genre.name) || genre.name.includes(g.name)) || false;
+};
 </script>
 
 <style lang="scss" scoped>
@@ -131,6 +145,9 @@ img {
 	border-radius: 20px;
 	font-size: 12px;
 	backdrop-filter: blur(10px);
+	&.is-favorite {
+		background: linear-gradient(138deg, #8b0580 0%, #4a0244 100%) !important;
+	}
 }
 
 .card-bio {

@@ -68,7 +68,7 @@
 	const users = ref(staticStore.users);
 	const showBio = ref(false);
 
-	const filteredUsers = computed(() => {
+	const filteredUsers = () => {
 		const currentUser = authStore.user;
 		if (!currentUser) return [];
 
@@ -120,13 +120,10 @@
 			return 0;
 		});
 
-		// Opcional: verifique também o resultado final ordenado
-		console.log("Cards ordenados:", sortedCards);
-
 		return sortedCards;
-	});
+	};
 
-	const cards = ref(filteredUsers.value);
+	const cards = ref([...filteredUsers()]);
 	const matchDialog = ref(false);
 	const filtersDialog = ref(false);
 	let startX = 0;
@@ -136,6 +133,8 @@
 	const matchInfo = ref();
 
 	const swipeResult = ref();
+
+	const updateStack = () => {};
 
 	const toggleBio = () => {
 		showBio.value = !showBio.value;
@@ -245,9 +244,8 @@
 		filtersDialog.value = true;
 	};
 
-	const onCloseFilters = (payload: any) => {
-		if (payload) {
-		}
+	const onCloseFilters = () => {
+		cards.value = filteredUsers();
 		filtersDialog.value = false;
 	};
 
