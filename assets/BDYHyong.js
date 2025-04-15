@@ -1,1 +1,0 @@
-import{_ as e,K as r,v as o,A as a,b5 as s}from"./D5DpnNe1.js";import{V as c}from"./CsxiQDwl.js";import"./DhCX-Uyt.js";import"./CbkNrk8E.js";import"./3wbF-2IO.js";const n={};function f(t,p){return o(),r(c,null,{default:a(()=>[s(t.$slots,"default",{},void 0,!0)]),_:3})}const u=e(n,[["render",f],["__scopeId","data-v-ec667a5f"]]);export{u as default};
