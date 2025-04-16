@@ -155,9 +155,15 @@
 
 	const importedImage = ref();
 	const importedImgUrl = ref("");
-	const userFullName = ref(userContext?.name || "");
-	const bio = ref(userContext?.bio || "");
-	const selectedGenres = ref(userContext?.favoriteGenres || []);
+	const userFullName = ref(userContext?.name || "Future Hendrix");
+	const bio = ref(userContext?.bio || "Bora fazer um som?");
+	const selectedGenres = ref(
+		userContext?.favoriteGenres || [
+			{ id: 3, name: "Hip Hop" },
+			{ id: 4, name: "R&B" },
+			{ id: 19, name: "Trap" },
+		],
+	);
 	const location = ref(userContext?.location || {});
 
 	const userImage = computed(() => {

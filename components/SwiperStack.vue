@@ -97,7 +97,6 @@
 			});
 
 		// Aqui você pode verificar o array antes da ordenação
-		console.log("Cards com distância calculada:", cardsWithDistance);
 
 		// Aplica filtro por gêneros selecionados (se houver)
 		const filteredCards = cardsWithDistance.filter((user) => {
