@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<v-slide-y-reverse-transition hide-on-leave>
+		<v-expand-transition>
 			<v-col
 				cols="12"
 				class="ma-0 pa-0"
@@ -15,8 +15,8 @@
 					OBTER LOCALIZAÇÃO</v-btn
 				>
 			</v-col>
-		</v-slide-y-reverse-transition>
-		<v-slide-y-transition hide-on-leave>
+		</v-expand-transition>
+		<v-expand-transition hide-on-leave>
 			<v-col
 				cols="12"
 				class="ma-0 pa-0"
@@ -46,7 +46,7 @@
 					remover localização</v-btn
 				>
 			</v-col>
-		</v-slide-y-transition>
+		</v-expand-transition>
 	</div>
 </template>
 <script setup>

@@ -3,13 +3,21 @@
 		<div class="card-content">
 			<v-img
 				draggable="false"
-				cover
 				v-if="card.profileImage"
 				:src="card.profileImage"
+				cover
 				alt="Imagem"
 				class="card-img" />
 			<p class="card-name">{{ card.name }}</p>
 			<p class="card-address">{{ card.location.address }}</p>
+			<div class="card-genres">
+				<span
+					v-for="(role, index) in roles"
+					:key="index"
+					:class="['genre-tag border mb-2 ', { 'is-favorite': isFavoriteRole(role) }]">
+					{{ role.name }}
+				</span>
+			</div>
 			<div class="card-genres">
 				<span
 					v-for="(genre, index) in genres"
@@ -18,30 +26,29 @@
 					{{ genre.name }}
 				</span>
 			</div>
-			<!-- <div class="card-genres">
-				<span
-					v-for="(genre, index) in genres"
-					:key="index"
-					class="genre-tag border mb-2">
-					{{ genre.name }}
-				</span>
-			</div> -->
 		</div>
-
 		<!-- Bio -->
 		<v-expand-transition>
-			<v-icon
+			<v-row
 				v-if="!showBio"
-				size="20"
-				>mdi-chevron-down</v-icon
-			>
+				no-gutters
+				class="justify-center">
+				<v-icon
+					class="my-3"
+					size="25"
+					>mdi-chevron-down</v-icon
+				>
+			</v-row>
 		</v-expand-transition>
 		<v-expand-transition>
-			<div
+			<v-row
 				v-if="showBio"
-				class="card-bio">
-				<p>{{ card.bio }}</p>
-			</div>
+				no-gutters
+				class="justify-center">
+				<div class="d-flex justify-center align-center card-bio">
+					{{ card.bio }}
+				</div>
+			</v-row>
 		</v-expand-transition>
 	</div>
 </template>
@@ -62,9 +69,15 @@
 
 	const user = useAuthStore().user;
 
+	const roles = computed(() => {
+		return props.card.favoriteRoles || [];
+	});
 	const genres = computed(() => {
 		return props.card.favoriteGenres || [];
 	});
+	const isFavoriteRole = (role: any) => {
+		return user?.favoriteRoles.some((r: any) => r.id == role.id);
+	};
 	const isFavoriteGenre = (genre: any) => {
 		return user?.favoriteGenres.some((g: any) => g.id == genre.id);
 	};
@@ -88,7 +101,7 @@
 	}
 	.inner-card {
 		width: 100%;
-		max-width: 400px;
+		max-width: 380px;
 		border-radius: 15px;
 
 		background: linear-gradient(138deg, #170015 0%, #0d000c 100%);
@@ -113,8 +126,10 @@
 
 	.card-img {
 		width: 100%;
-		height: 180px;
-		object-fit: cover;
+		min-height: 250px;
+		max-height: 350px;
+
+		// object-fit: cover;
 		border-radius: 10px;
 	}
 
@@ -151,6 +166,7 @@
 
 	.card-bio {
 		font-size: 14px;
+		height: 70px;
 		color: #ddd;
 	}
 

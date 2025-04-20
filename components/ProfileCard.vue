@@ -91,7 +91,7 @@
 				v-model="userFullName"
 				:readonly="!!matchedUser"
 				variant="solo"
-				label="Nome"
+				:label="matchedUser ? '' : 'Nome'"
 				rounded="xl"
 				class="mb-3"
 				hide-details
@@ -99,7 +99,7 @@
 				dense></v-text-field>
 			<!-- Biografia -->
 			<v-textarea
-				label="Biografia"
+				:label="matchedUser ? '' : 'Biografia'"
 				rounded="xl"
 				v-model="bio"
 				:rules="[(v) => v.length <= 200 || 'Máximo: 200 caracteres']"
@@ -109,14 +109,15 @@
 				rows="3"
 				outlined></v-textarea>
 
-			<!-- Gêneros Musicais (até 3 seleções) -->
+			<!-- Roles -->
 			<v-select
-				v-model="selectedGenres"
-				:items="staticStore?.genres"
-				label="Gêneros Musicais"
+				v-model="selectedRoles"
+				:items="staticStore?.roles"
+				:label="matchedUser ? '' : 'Ramos Artísticos'"
 				multiple
+				:clearable="!matchedUser"
 				rounded="xl"
-				:menu-icon="matchedUser ? false : '$dropdown '"
+				:menu-icon="matchedUser ? '' : '$dropdown '"
 				:readonly="!!matchedUser"
 				return-object
 				item-title="name"
@@ -124,8 +125,24 @@
 				variant="solo"
 				chips
 				outlined
-				dense
-				:rules="[limitGenres]"></v-select>
+				dense></v-select>
+			<!-- Gêneros Musicais (até 3 seleções) -->
+			<v-select
+				v-model="selectedGenres"
+				:items="staticStore?.genres"
+				:label="matchedUser ? '' : 'Gêneros Musicais'"
+				multiple
+				:clearable="!matchedUser"
+				rounded="xl"
+				:menu-icon="matchedUser ? '' : '$dropdown '"
+				:readonly="!!matchedUser"
+				return-object
+				item-title="name"
+				:closable-chips="!matchedUser"
+				variant="solo"
+				chips
+				outlined
+				dense></v-select>
 			<!-- Endereço -->
 			<AddressInput
 				@updateLocation="updateLocation"
@@ -157,6 +174,12 @@
 	const importedImgUrl = ref("");
 	const userFullName = ref(userContext?.name || "Future Hendrix");
 	const bio = ref(userContext?.bio || "Bora fazer um som?");
+	const selectedRoles = ref(
+		userContext?.favoriteRoles || [
+			{ id: 3, name: "Produtor(a) Musical" },
+			{ id: 6, name: "DJ" },
+		],
+	);
 	const selectedGenres = ref(
 		userContext?.favoriteGenres || [
 			{ id: 3, name: "Hip Hop" },
@@ -173,13 +196,6 @@
 			"https://media.gq.com/photos/6255cb439aa7a6f3a12583da/master/w_1600%2Cc_limit/GQ0522_Future_11.jpg"
 		);
 	});
-
-	const limitGenres = (value) => {
-		if (value.length > 3) {
-			return "Máximo: 3 gêneros";
-		}
-		return true;
-	};
 
 	// FUNÇÕES INICIAIS
 	onMounted(() => {
@@ -224,6 +240,7 @@
 			name: userFullName.value,
 			bio: bio.value,
 			profileImage: userImage.value,
+			favoriteRoles: selectedRoles.value,
 			favoriteGenres: selectedGenres.value,
 		};
 		if (!validUserProfile(userEditing.value)) {

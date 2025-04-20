@@ -44,20 +44,24 @@
 			@mousedown="startDrag($event, index)"
 			@touchstart="startDrag($event, index)"
 			:class="{ 'card-active': index === 0 }">
-			<v-dialog-transition>
-				<InnerCardStack
-					id="innerCardRef"
-					@click="toggleBio()"
+			<v-expand-transition>
+				<div
 					v-if="index === 0"
-					:card
-					:show-bio />
-			</v-dialog-transition>
+					class="d-flex w-100 justify-center align-center">
+					
+					<InnerCardStack
+						id="innerCardRef"
+						@click="toggleBio()"
+						:card
+						:show-bio />
+				</div>
+			</v-expand-transition>
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
-	import type { Genre, User } from "~/types/types.global";
+	import type { Genre, Role, User } from "~/types/types.global";
 
 	const emit = defineEmits(["swipe"]);
 
@@ -68,61 +72,59 @@
 	const users = ref(staticStore.users);
 	const showBio = ref(false);
 
-	const filteredUsers = () => {
+	const filteredUsers = computed(() => {
 		const currentUser = authStore.user;
 		if (!currentUser) return [];
 
-		const currentLat = currentUser.location.latitude;
-		const currentLon = currentUser.location.longitude;
+		const { latitude: curLat, longitude: curLon } = currentUser.location;
 
-		// Calcula distância e número de gêneros em comum
-		const cardsWithDistance = users.value
-			.filter((user) => user.id !== currentUser.id)
+		// 1) calculamos distância, commonGenresCount e commonRolesCount
+		const cards = users.value
+			.filter((u) => u.id !== currentUser.id)
 			.map((user) => {
 				const distance = calcularDistancia(
-					currentLat,
-					currentLon,
+					curLat,
+					curLon,
 					user.location.latitude,
 					user.location.longitude,
 				);
-				const commonGenresCount =
-					filtersStore.genres.length > 0
-						? user.favoriteGenres.filter((userGenre) =>
-								filtersStore.genres.some(
-									(filterGenre: Genre) => filterGenre.id === userGenre.id,
-								),
-						  ).length
-						: 0;
-				return { ...user, distance, commonGenresCount };
+				const commonGenresCount = filtersStore.genres.length
+					? user.favoriteGenres.filter((g) =>
+							filtersStore.genres.some((fg) => fg.id === g.id),
+					  ).length
+					: 0;
+				const commonRolesCount = filtersStore.roles.length
+					? user.favoriteRoles.filter((r) =>
+							filtersStore.roles.some((fr) => fr.id === r.id),
+					  ).length
+					: 0;
+
+				return { ...user, distance, commonGenresCount, commonRolesCount };
 			});
 
-		// Aqui você pode verificar o array antes da ordenação
+		// 2) ordenação:
+		//   a) quem tiver ANY match (score>0) vem antes
+		//   b) dentro de cada grupo, ordena por score desc, depois por distância asc
+		return cards.sort((a, b) => {
+			const scoreA = a.commonGenresCount + a.commonRolesCount;
+			const scoreB = b.commonGenresCount + b.commonRolesCount;
 
-		// Aplica filtro por gêneros selecionados (se houver)
-		const filteredCards = cardsWithDistance.filter((user) => {
-			if (filtersStore.genres.length > 0) {
-				return user.commonGenresCount > 0;
+			// 2.a) usuários com score>0 ganham de usuários com score=0
+			if (scoreA > 0 !== scoreB > 0) {
+				return scoreB > 0 ? 1 : -1;
 			}
-			return true;
-		});
 
-		// Ordena os usuários: os mais próximos primeiro e, em caso de empate, mais gêneros em comum
-		const sortedCards = filteredCards.sort((a, b) => {
-			if (filtersStore.nearbyUsers) {
-				if (a.distance !== b.distance) {
-					return a.distance - b.distance;
-				}
-				return b.commonGenresCount - a.commonGenresCount;
-			} else if (filtersStore.genres.length > 0) {
-				return b.commonGenresCount - a.commonGenresCount;
+			// 2.b) dentro do mesmo “grupo” de match:
+			if (scoreA !== scoreB) {
+				return scoreB - scoreA;
 			}
-			return 0;
+
+			// 2.c) por fim, proximidade
+			return a.distance - b.distance;
 		});
+	});
 
-		return sortedCards;
-	};
-
-	const cards = ref([...filteredUsers()]);
+	const cards = ref([...filteredUsers.value]);
 	const matchDialog = ref(false);
 	const filtersDialog = ref(false);
 	let startX = 0;
@@ -223,7 +225,8 @@
 	}
 
 	function resetCardsStack() {
-		cards.value = filteredUsers();	}
+		cards.value = filteredUsers.value;
+	}
 
 	const checkMatch = (swipedCard: User) => {
 		// Lógica para verificar se houve match
@@ -243,7 +246,7 @@
 	};
 
 	const onCloseFilters = () => {
-		cards.value = filteredUsers();
+		cards.value = filteredUsers.value;
 		filtersDialog.value = false;
 	};
 

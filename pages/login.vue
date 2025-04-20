@@ -70,6 +70,8 @@
 </template>
 
 <script lang="ts" setup>
+import { populateUsersInfo } from '../utils/helpers';
+
 	definePageMeta({
 		layout: "auth",
 	});
@@ -152,6 +154,7 @@
 		} catch (error) {
 			console.error("login err:", error);
 		} finally {
+			populateUsersInfo()
 			loading.value = false;
 		}
 	};

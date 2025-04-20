@@ -109,12 +109,6 @@
 		},
 	});
 
-	const existingChat = chatsStore.chats.find(
-		(chat: Chat) =>
-			chat.participants.includes(Number(props.matchInfo.id)) &&
-			chat.participants.includes(Number(authStore?.user?.id)),
-	);
-
 	const userImg = authStore.user?.profileImage || "";
 	const emit = defineEmits(["close"]);
 	const topTxt = props.matchInfo?.name?.split(" ")[0] + " também curtiu você!";
