@@ -27,14 +27,30 @@
 				<v-row
 					no-gutters
 					class="justify-center align-center mb-2">
-					<v-switch
-						v-model="showNearby"
-						:label-class="showNearby ? 'text-purple' : 'text-grey'"
-						class="mb-4"
+					<div class="d-flex w-100 align-center justify-center pa-3 mx-8 nearby_warn">
+						<span class="text-center font-weight-light">
+							Por padrão, nós mostramos primeiro os usuários mais próximos em relação
+							à você</span
+						>
+					</div>
+				</v-row>
+				<v-row
+					no-gutters
+					class="w-100 justify-center align-center mb-6 px-6">
+					<v-select
+						v-model="selectedRoles"
+						:items="staticStore?.roles"
+						label="Ramos Artísticos"
+						multiple
+						rounded="xl"
 						hide-details
-						color="purple-darken-1"
-						label="Filtrar por usuários mais próximos">
-					</v-switch>
+						return-object
+						clearable
+						item-title="name"
+						variant="solo"
+						chips
+						outlined
+						dense></v-select>
 				</v-row>
 				<v-row
 					no-gutters
@@ -46,6 +62,7 @@
 						multiple
 						rounded="xl"
 						hide-details
+						clearable
 						return-object
 						item-title="name"
 						variant="solo"
@@ -71,16 +88,25 @@
 </template>
 <script setup lang="ts">
 	const emit = defineEmits(["close"]);
-
-	const showNearby = ref(useFiltersStore().nearbyUsers);
-	const selectedGenres = ref([]);
-	const staticStore = useStaticStore();
 	const filtersStore = useFiltersStore();
+	const staticStore = useStaticStore();
+
+	const showNearby = ref(filtersStore.nearbyUsers);
+	const selectedGenres = ref(filtersStore.genres);
+	const selectedRoles = ref(filtersStore.roles);
 	const save = () => {
 		filtersStore.nearbyUsers = showNearby.value;
 		filtersStore.genres = selectedGenres.value;
+		filtersStore.roles = selectedRoles.value;
 		emit("close");
 	};
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+	.nearby_warn {
+		border-radius: 8px;
+		border: 1px solid purple;
+		background-color: rgb(37, 0, 37);
+		color: rgb(236, 60, 236);
+	}
+</style>

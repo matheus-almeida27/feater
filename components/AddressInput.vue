@@ -3,17 +3,23 @@
 		<v-expand-transition>
 			<v-col
 				cols="12"
-				class="ma-0 pa-0"
+				class="ma-0 pa-0 w-100 d-flex justify-center"
 				v-if="!address">
-				<v-btn
-					:loading
-					@click="getCurrentLocation"
-					block
-					rounded="xl"
-					color="purple-darken-3">
-					<v-icon class="mr-2"> mdi-map-marker </v-icon>
-					OBTER LOCALIZAÇÃO</v-btn
-				>
+				<v-badge
+					color="warning"
+					class="w-100"
+					offset-x="8">
+					<v-btn
+						:loading
+						@click="getCurrentLocation"
+						block
+						rounded="xl"
+						class="w-100"
+						color="purple-darken-3">
+						<v-icon class="mr-2"> mdi-map-marker </v-icon>
+						OBTER LOCALIZAÇÃO</v-btn
+					>
+				</v-badge>
 			</v-col>
 		</v-expand-transition>
 		<v-expand-transition hide-on-leave>
@@ -152,7 +158,11 @@
 		latitude.value = "";
 		longitude.value = "";
 		loading.value = false;
-		emit("updateLocation", null);
+		emit("updateLocation", {
+			latitude: "",
+			longitude: "",
+			address: "",
+		});
 	};
 </script>
 

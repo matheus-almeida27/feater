@@ -9,12 +9,22 @@
 				alt="Imagem"
 				class="card-img" />
 			<p class="card-name">{{ card.name }}</p>
-			<p class="card-address">{{ card.location.address }}</p>
+			<p class="card-address font-weight-regular">{{ card.location.address }}</p>
+			<p class="card-address font-weight-light mt-1 mb-2">
+				<v-icon
+					size="20"
+					class="mr-1 mt-n1">
+					mdi-airplane </v-icon
+				>{{ kmsAway }}
+			</p>
 			<div class="card-genres">
 				<span
 					v-for="(role, index) in roles"
 					:key="index"
-					:class="['genre-tag border mb-2 ', { 'is-favorite': isFavoriteRole(role) }]">
+					:class="[
+						'genre-tag border mb-2 ',
+						{ 'is-favorite': isFavoriteRole(role), 'in-filter': isRoleInFilter(role) },
+					]">
 					{{ role.name }}
 				</span>
 			</div>
@@ -22,7 +32,13 @@
 				<span
 					v-for="(genre, index) in genres"
 					:key="index"
-					:class="['genre-tag border mb-2 ', { 'is-favorite': isFavoriteGenre(genre) }]">
+					:class="[
+						'genre-tag border mb-2 ',
+						{
+							'is-favorite': isFavoriteGenre(genre),
+							'in-filter': isGenreInFilter(genre),
+						},
+					]">
 					{{ genre.name }}
 				</span>
 			</div>
@@ -54,7 +70,7 @@
 </template>
 
 <script lang="ts" setup>
-	const staticStore = useStaticStore();
+	const filtersStore = useFiltersStore();
 
 	const props = defineProps({
 		card: {
@@ -80,6 +96,43 @@
 	};
 	const isFavoriteGenre = (genre: any) => {
 		return user?.favoriteGenres.some((g: any) => g.id == genre.id);
+	};
+
+	const isRoleInFilter = (role: any) => {
+		return filtersStore?.roles.some((r: any) => r.id == role.id);
+	};
+	const isGenreInFilter = (genre: any) => {
+		return filtersStore?.genres.some((g: any) => g.id == genre.id);
+	};
+
+	const kmsAway = computed(() => {
+		//calcula a distância entre o usuário e o card basado na localização longitude e latitude
+		if (props.card.location && props.card.location.latitude && props.card.location.longitude) {
+			const userLocation = user?.location;
+			if (userLocation) {
+				const distance = calculateDistance(
+					userLocation.latitude,
+					userLocation.longitude,
+					props.card.location.latitude,
+					props.card.location.longitude,
+				);
+				return `${distance.toFixed(0)} km de você`;
+			}
+		}
+		return "";
+	});
+	const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
+		const R = 6371; // Raio da Terra em km
+		const dLat = ((lat2 - lat1) * Math.PI) / 180;
+		const dLon = ((lon2 - lon1) * Math.PI) / 180;
+		const a =
+			Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+			Math.cos((lat1 * Math.PI) / 180) *
+				Math.cos((lat2 * Math.PI) / 180) *
+				Math.sin(dLon / 2) *
+				Math.sin(dLon / 2);
+		const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		return R * c; // Distância em km
 	};
 </script>
 
@@ -150,7 +203,7 @@
 		gap: 5px;
 		flex-wrap: wrap;
 		justify-content: center;
-		margin-top: 10px;
+		margin-top: 4px;
 	}
 
 	.genre-tag {
@@ -161,6 +214,9 @@
 		backdrop-filter: blur(10px);
 		&.is-favorite {
 			background: linear-gradient(138deg, #8b0580 0%, #4a0244 100%) !important;
+		}
+		&.in-filter {
+			border: 1px solid #06eaee !important;
 		}
 	}
 
