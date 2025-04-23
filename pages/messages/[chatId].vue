@@ -60,29 +60,42 @@
 			sm="10"
 			class="d-flex justify-center">
 			<v-list
-			class="pa-0 bg-transparent w-100"
+				class="pa-0 bg-transparent w-100"
 				two-line>
-				<div
-				v-for="message in chat?.messages || []"
-					:key="message.id"
-					:class="{
-						sent: message.sender === authStore.user?.id,
-						received: message.sender !== authStore.user?.id,
-					}"
-					class="message-item">
 					<div
-						class="message-text"
-						@click="showMessageTime = !showMessageTime">
-						{{ message.text }}
-						<v-expand-transition>
-							<div
-								class="message-time"
-								v-if="showMessageTime">
-								{{ formatTimestamp(message.timestamp) }}
-							</div>
-						</v-expand-transition>
+						v-for="message in chat?.messages || []"
+						:key="message.id"
+						:class="{
+							sent: message.sender === authStore.user?.id,
+							received: message.sender !== authStore.user?.id,
+						}"
+						class="message-item">
+						<div
+							v-if="message.text"
+							class="message-text"
+							@click="showMessageTime = !showMessageTime">
+							{{ message.text }}
+							<v-expand-transition>
+								<div
+									class="message-time"
+									v-if="showMessageTime">
+									{{ formatTimestamp(message.timestamp) }}
+								</div>
+							</v-expand-transition>
+						</div>
 					</div>
-				</div>
+				<!-- Indicador de "digitando" -->
+				<v-expand-transition>
+					<div
+						v-if="isTyping"
+						class="typing-indicator received">
+						<div class="dots">
+							<span></span>
+							<span></span>
+							<span></span>
+						</div>
+					</div>
+				</v-expand-transition>
 			</v-list>
 		</v-col>
 	</v-container>
@@ -128,6 +141,8 @@
 	const router = useRouter();
 	const chatId = Number(route.params.chatId);
 
+	const isTyping = ref(false);
+
 	const chat = chatsStore.chats.find((c: Chat) => c.id === chatId);
 
 	if (!chat) {
@@ -168,29 +183,36 @@
 
 		chat.messages.push(message);
 		newMessage.value = "";
-		let randomResponses = [
-			"Sim, concordo!",
-			"Beleza, bora f1 então!",
-			"Claro, bora!",
-			"Com certeza meu mano",
-			"vambora cpx!",
-			"Vamos lá!",
-		];
-		setTimeout(() => {
-			// simule o envio de uma mensagem de resposta do outro usuário
-			const responseMessage: Message = {
-				id: Date.now() + 1,
-				chatId: chat.id,
-				sender: matchedUser.value?.id || 0,
-				// na mensagem abaixo envia algo aleatorio entre "sim, concordo, beleza bora f1 então" e outras 5 respostas aleatórias básicas
-				text: randomResponses[Math.floor(Math.random() * randomResponses.length)],
-				timestamp: new Date().toISOString(),
-			};
-			chat.messages.push(responseMessage);
-			scrollToBottom();
-		}, 1200);
 
-		// Scroll para a última mensagem
+		// Aguarda 1 segundo antes de começar a "digitar"
+		setTimeout(() => {
+			isTyping.value = true;
+
+			// "Digita" por 3 segundos e depois envia a resposta
+			setTimeout(() => {
+				isTyping.value = false;
+				setTimeout(() => {
+					const randomResponses = [
+						"Sim, concordo!",
+						"Beleza, bora f1 então!",
+						"Claro, bora!",
+						"Com certeza meu mano",
+						"vambora cpx!",
+						"Vamos lá!",
+					];
+					const responseMessage: Message = {
+						id: Date.now() + 1,
+						chatId: chat.id,
+						sender: matchedUser.value?.id || 0,
+						text: randomResponses[Math.floor(Math.random() * randomResponses.length)],
+						timestamp: new Date().toISOString(),
+					};
+					chat.messages.push(responseMessage);
+				}, 1000); // Aguarda 100ms para garantir que o scroll ocorra após a mensagem ser adicionada
+				scrollToBottom();
+			}, 3000); // 3 segundos de "digitando"
+		}, 1000); // 1 segundo de espera antes de começar
+
 		scrollToBottom();
 	}
 
@@ -296,6 +318,55 @@
 		}
 		.message-text {
 			max-width: 95%;
+		}
+	}
+	.typing-indicator {
+		// display: flex;
+		align-items: center;
+		width: fit-content;
+	}
+
+	.typing-indicator.received {
+		justify-content: flex-start;
+		background: #0f002d;
+		border-radius: 12px;
+		width: fit-content;
+		padding: 8px 12px;
+	}
+
+	.typing-indicator .dots {
+		// display: flex;
+		align-items: center;
+	}
+
+	.typing-indicator .dots span {
+		display: inline-block;
+		width: 5px;
+		height: 5px;
+		margin-left: 6px;
+		margin-top: 10px;
+
+		background-color: #ffffff;
+		border-radius: 50%;
+		animation: bounce 1.4s infinite ease-in-out;
+	}
+
+	.typing-indicator .dots span:nth-child(1) {
+		animation-delay: -0.32s;
+	}
+
+	.typing-indicator .dots span:nth-child(2) {
+		animation-delay: -0.16s;
+	}
+
+	@keyframes bounce {
+		0%,
+		80%,
+		100% {
+			transform: translateY(0);
+		}
+		40% {
+			transform: translateY(-10px);
 		}
 	}
 </style>
