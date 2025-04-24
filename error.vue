@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<h3>{{ error?.statusCode }}</h3>
+		<h3 class="text-center">Esse erro (code: {{ error?.statusCode }}) não é culpa do desenvolvedor.</h3>
 		<v-btn
 			@click="handleError"
 			variant="outlined"
@@ -35,6 +35,6 @@ definePageMeta({
 				.replace(/=.*/, "=;expires=" + new Date(0).toUTCString() + ";path=/");
 		});
 
-		return clearError({ redirect: "/" });
+		return clearError({ redirect: "/login" });
 	};
 </script>
