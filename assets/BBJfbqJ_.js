@@ -1,1 +1,0 @@
-import{V as t,aH as n}from"./BCok099G.js";const o=t({class:[String,Array,Object],style:{type:[String,Array,Object],default:null}},"component");function a(e){const r=n("useRender");r.render=e}export{o as m,a as u};
