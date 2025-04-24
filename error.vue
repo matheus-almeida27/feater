@@ -16,6 +16,9 @@
 	</div>
 </template>
 <script setup lang="ts">
+definePageMeta({
+		layout: "blank",
+	});
 	import type { NuxtError } from "#app";
 
 	defineProps({
