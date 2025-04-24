@@ -99,6 +99,7 @@
 		filtersStore.genres = selectedGenres.value;
 		filtersStore.roles = selectedRoles.value;
 		emit("close");
+		staticStore.alertSnackbar("Filtros aplicados!");
 	};
 </script>
 

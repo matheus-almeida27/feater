@@ -13,7 +13,7 @@ export const useChatsStore = defineStore("chatsStore", {
 			const existingChat = this.chats.find(
 				(chat) =>
 					chat.participants.includes(Number(matchedUser.id)) &&
-					chat.participants.includes(Number(authStore?.user?.id))
+					chat.participants.includes(Number(authStore?.user?.id)),
 			);
 			if (!existingChat) {
 				// Cria um novo chat com o usuário correspondente
@@ -28,6 +28,13 @@ export const useChatsStore = defineStore("chatsStore", {
 		selectChat(chatId: number) {
 			const chat = this.chats.find((c) => c.id == chatId);
 			this.selectedChat = chat || null;
+		},
+		removeChat(chatId: number) {
+			const chatIndex = this.chats.findIndex((c) => c.id == chatId);
+			if (chatIndex !== -1) {
+				this.chats.splice(chatIndex, 1);
+			}
+			useStaticStore().alertSnackbar("Feat removido com sucesso");
 		},
 	},
 	persist: true,

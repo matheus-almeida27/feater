@@ -6,7 +6,7 @@
 		flat
 		:style="{
 			background: 'transparent',
-			backdropFilter: 'blur(5px)',
+			backdropFilter: 'blur(15px)',
 		}">
 		<v-btn
 			icon
@@ -62,28 +62,29 @@
 			<v-list
 				class="pa-0 bg-transparent w-100"
 				two-line>
+				<div
+					v-for="message in chat?.messages || []"
+					:key="message.id"
+					:id="`${message.id}`"
+					:class="{
+						sent: message.sender === authStore.user?.id,
+						received: message.sender !== authStore.user?.id,
+					}"
+					class="message-item">
 					<div
-						v-for="message in chat?.messages || []"
-						:key="message.id"
-						:class="{
-							sent: message.sender === authStore.user?.id,
-							received: message.sender !== authStore.user?.id,
-						}"
-						class="message-item">
-						<div
-							v-if="message.text"
-							class="message-text"
-							@click="showMessageTime = !showMessageTime">
-							{{ message.text }}
-							<v-expand-transition>
-								<div
-									class="message-time"
-									v-if="showMessageTime">
-									{{ formatTimestamp(message.timestamp) }}
-								</div>
-							</v-expand-transition>
-						</div>
+						v-if="message.text"
+						class="message-text"
+						@click="showMessageTime = !showMessageTime">
+						{{ message.text }}
+						<v-expand-transition>
+							<div
+								class="message-time"
+								v-if="showMessageTime">
+								{{ formatTimestamp(message.timestamp) }}
+							</div>
+						</v-expand-transition>
 					</div>
+				</div>
 				<!-- Indicador de "digitando" -->
 				<v-expand-transition>
 					<div
@@ -296,7 +297,7 @@
 
 	.glass-effect {
 		padding-top: 4px;
-		backdrop-filter: blur(10px);
+		backdrop-filter: blur(15px);
 		background: transparent;
 	}
 

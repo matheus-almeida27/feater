@@ -28,25 +28,17 @@
 				class="ma-0 pa-0"
 				v-if="address">
 				<span
-					v-if="props.blocked"
-					class="text-truncate d-flex justify-center">
+				style="font-size: 1rem;"
+					class="text-truncate d-flex justify-center font-weight-light">
 					{{ formatedAddress }}
 				</span>
-				<v-text-field
-					v-if="!props.blocked"
-					:variant="props.blocked ? 'plain' : 'solo'"
-					disabled
-					class="mb-3"
-					rounded="xl"
-					hide-details
-					:value="formatedAddress"
-					dense></v-text-field>
 				<v-btn
 					v-if="!props.blocked"
 					@click="resetLocation"
 					block
+					class="mt-2"
 					rounded="xl"
-					variant="tonal"
+					variant="plain"
 					color="error">
 					<v-icon class="mr-2"> mdi-map-marker </v-icon>
 					remover localização</v-btn

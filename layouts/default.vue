@@ -4,7 +4,7 @@
 			class="px-3"
 			:style="{
 				background: 'transparent',
-				backdropFilter: 'blur(5px)',
+				backdropFilter: 'blur(15px)',
 			}">
 			<div class="d-flex align-center justify-center">
 				<v-img
@@ -18,6 +18,9 @@
 		</v-app-bar>
 		<v-main>
 			<slot />
+			<Snackbar
+				v-model="staticStore.showSnackbar"
+				:text="staticStore.snackbarMessage" />
 		</v-main>
 		<v-bottom-navigation
 			fixed
@@ -27,7 +30,7 @@
 			color="purple"
 			:style="{
 				background: 'transparent',
-				backdropFilter: 'blur(10px)',
+				backdropFilter: 'blur(15px)',
 			}"
 			grow>
 			<v-btn
@@ -61,6 +64,7 @@
 	const navigationValue = ref<number | null>(null);
 	const router = useRouter();
 	const authStore = useAuthStore();
+	const staticStore = useStaticStore();
 	const routeMapping: Record<string, number> = {
 		messages: 0,
 		home: 1,
@@ -78,7 +82,7 @@
 	const onClick = (value: number | null) => {
 		if (value === null) return;
 		if (router.currentRoute.value.path == "/profile" && !validUserProfile(authStore.user)) {
-			alert("Você precisa completar seu perfil antes de continuar.");
+			staticStore.alertSnackbar("Você precisa completar seu perfil antes de continuar.");
 			nextTick(() => {
 				navigationValue.value = 2;
 			});

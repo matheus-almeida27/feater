@@ -6,10 +6,6 @@
 		variant="tonal"
 		class="save-btn text-white"
 		rounded="xl"
-		><v-icon
-			class="mr-2"
-			color="#fff"
-			>mdi-check</v-icon
 		><span class="text-white"> Salvar </span>
 	</v-btn>
 	<v-card class="w-100 rounded-xl">
@@ -149,6 +145,21 @@
 				:location
 				:blocked="Boolean(matchedUser)" />
 		</v-card-text>
+		<v-card-actions v-if="matchedUser">
+			<v-btn
+				block
+				color="red"
+				variant="tonal"
+				rounded="xl"
+				@click="removeFeat">
+				<v-icon
+					class="mr-2"
+					color="red"
+					>mdi-leaf-off</v-icon
+				>
+				<span> Remover Feat </span>
+			</v-btn>
+		</v-card-actions>
 	</v-card>
 </template>
 
@@ -162,6 +173,7 @@
 	const emit = defineEmits(["close"]);
 	const authStore = useAuthStore();
 	const staticStore = useStaticStore();
+	const chatId = useRoute().params?.chatId;
 
 	const userContext = props.matchedUser || authStore.user;
 	const authUserId = props.matchedUser?.id || authStore.user?.id;
@@ -244,12 +256,17 @@
 			favoriteGenres: selectedGenres.value,
 		};
 		if (!validUserProfile(userEditing.value)) {
-			alert("Preencha todos os campos");
+			staticStore.alertSnackbar("Preencha todos os campos");
 			return;
 		}
 		staticStore.updateUser(userEditing.value);
-		alert("Perfil salvo com sucesso!");
+		staticStore.alertSnackbar("Perfil salvo com sucesso!");
 		navigateTo("/home");
+	}
+
+	function removeFeat() {
+		navigateTo("/messages");
+		useChatsStore().removeChat(chatId);
 	}
 </script>
 

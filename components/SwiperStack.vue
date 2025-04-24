@@ -237,7 +237,7 @@
 		const swipedUser = users.value.find((user) => user.id === swipedCard.id);
 		if (swipedUser?.likedUsers.includes(Number(authStore?.user?.id))) {
 			// Lógica para o match
-			alert("You both liked each other!");
+			staticStore.alertSnackbar("You both liked each other!");
 		}
 	};
 
