@@ -219,7 +219,7 @@
 	const emit = defineEmits(["close"]);
 	const authStore = useAuthStore();
 	const staticStore = useStaticStore();
-	const filtersStore = useFiltersStore();
+	const alertStore = useAlertStore();
 	const chatId = useRoute().params?.chatId;
 
 	const userContext = props.matchedUser || authStore.user;
@@ -307,11 +307,11 @@
 			favoriteGenres: selectedGenres.value,
 		};
 		if (!validUserProfile(userEditing.value)) {
-			staticStore.alertSnackbar("Preencha todos os campos");
+			alertStore.alertSnackbar("Preencha todos os campos");
 			return;
 		}
 		staticStore.updateUser(userEditing.value);
-		staticStore.alertSnackbar("Perfil salvo com sucesso!");
+		alertStore.alertSnackbar("Perfil salvo com sucesso!");
 		navigateTo("/home");
 	}
 

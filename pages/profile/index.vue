@@ -41,7 +41,7 @@
 					class="mr-1 opacity-80"
 					>mdi-leaf</v-icon
 				>
-				<span class="opacity-60"> v 1.0 </span>
+				<span class="opacity-60"> v 1.0.1 </span>
 			</div>
 		</v-col>
 	</v-container>

@@ -70,13 +70,14 @@
 </template>
 
 <script lang="ts" setup>
-import { populateUsersInfo } from '../utils/helpers';
+	import { populateUsersInfo } from "../utils/helpers";
 
 	definePageMeta({
 		layout: "auth",
 	});
 	const authStore = useAuthStore();
 	const staticStore = useStaticStore();
+	const alertStore = useAlertStore();
 	// Estados reativos
 	const process = ref("signup");
 
@@ -107,7 +108,7 @@ import { populateUsersInfo } from '../utils/helpers';
 				// Verificar se o usuário já existe
 				const existingUser = users.find((user: any) => user.username === username.value);
 				if (existingUser) {
-					staticStore.alertSnackbar("Nome de usuário já existe");
+					alertStore.alertSnackbar("Nome de usuário já existe");
 					return;
 				}
 
@@ -134,11 +135,11 @@ import { populateUsersInfo } from '../utils/helpers';
 				// Verificar se o usuário existe e a senha está correta
 				const user = users.find((user: any) => user.username == username.value);
 				if (!user) {
-					staticStore.alertSnackbar("Usuário não encontrado");
+					alertStore.alertSnackbar("Usuário não encontrado");
 					return;
 				}
 				if (user.password !== password.value) {
-					staticStore.alertSnackbar("Senha incorreta");
+					alertStore.alertSnackbar("Senha incorreta");
 					return;
 				}
 
@@ -154,7 +155,7 @@ import { populateUsersInfo } from '../utils/helpers';
 		} catch (error) {
 			console.error("login err:", error);
 		} finally {
-			populateUsersInfo()
+			populateUsersInfo();
 			loading.value = false;
 		}
 	};

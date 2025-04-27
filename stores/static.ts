@@ -3,8 +3,6 @@ import type { Genre, Role, User } from "~/types/types.global.ts";
 
 export const useStaticStore = defineStore("static", {
 	state: () => ({
-		showSnackbar: true,
-		snackbarMessage: "",
 		genres: [
 			{ id: 1, name: "Pop" },
 			{ id: 2, name: "Rock" },
@@ -661,10 +659,6 @@ export const useStaticStore = defineStore("static", {
 				user.location = editedUser.location;
 			}
 			authStore.setUser(user);
-		},
-		alertSnackbar(message: string) {
-			this.snackbarMessage = message;
-			this.showSnackbar = true;
 		},
 	},
 	persist: true,

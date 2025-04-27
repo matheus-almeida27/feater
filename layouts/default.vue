@@ -19,8 +19,8 @@
 		<v-main>
 			<slot />
 			<Snackbar
-				v-model="staticStore.showSnackbar"
-				:text="staticStore.snackbarMessage" />
+				v-model="alertStore.showSnackbar"
+				:text="alertStore.snackbarMessage" />
 		</v-main>
 		<v-bottom-navigation
 			fixed
@@ -65,6 +65,7 @@
 	const router = useRouter();
 	const authStore = useAuthStore();
 	const staticStore = useStaticStore();
+	const alertStore = useAlertStore();
 	const routeMapping: Record<string, number> = {
 		messages: 0,
 		home: 1,
@@ -82,7 +83,7 @@
 	const onClick = (value: number | null) => {
 		if (value === null) return;
 		if (router.currentRoute.value.path == "/profile" && !validUserProfile(authStore.user)) {
-			staticStore.alertSnackbar("Você precisa completar seu perfil antes de continuar");
+			alertStore.alertSnackbar("Você precisa completar seu perfil antes de continuar");
 			nextTick(() => {
 				navigationValue.value = 2;
 			});

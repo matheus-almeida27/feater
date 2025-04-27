@@ -90,6 +90,7 @@
 	const emit = defineEmits(["close"]);
 	const filtersStore = useFiltersStore();
 	const staticStore = useStaticStore();
+	const alertStore = useAlertStore();
 
 	const showNearby = ref(filtersStore.nearbyUsers);
 	const selectedGenres = ref(filtersStore.genres);
@@ -99,7 +100,7 @@
 		filtersStore.genres = selectedGenres.value;
 		filtersStore.roles = selectedRoles.value;
 		emit("close");
-		staticStore.alertSnackbar("Filtros aplicados!");
+		alertStore.alertSnackbar("Filtros aplicados!");
 	};
 </script>
 
