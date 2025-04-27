@@ -219,12 +219,12 @@
 				isTyping.value = false;
 				setTimeout(() => {
 					const randomResponses = [
-						"Sim, concordo!",
-						"Beleza, bora f1 então!",
-						"Claro, bora!",
+						"Não sei mano",
+						"Beleza, bora então",
+						"Mas antes bora f1 então",
+						"Claro!",
 						"Com certeza meu mano",
 						"vambora cpx!",
-						"Vamos lá!",
 					];
 					const responseMessage: Message = {
 						id: Date.now() + 1,
