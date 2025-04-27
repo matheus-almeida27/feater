@@ -35,24 +35,31 @@
 	<v-dialog
 		v-model="profileDialog"
 		transition="dialog-bottom-transition"
-		:content-class="'bg-surface d-flex justify-center align-center'"
-		class="d-flex justify-center align-center"
+		:content-class="'bg-surface fill-height justify-center align-center'"
+		class="justify-center align-center"
 		fullscreen>
-		<v-col
-			cols="12"
-			sm="7"
-			md="6"
-			lg="4"
-			xl="3"
-			class="d-flex justify-center align-center ma-0 pa-0">
-			<profile-card
-				:matchedUser
-				@close="profileDialog = false" />
-		</v-col>
+		<v-container
+			fluid
+			class="d-flex align-center flex-column pa-0 fill-height overflow-y-scroll"
+			:class="{
+				'justify-center': smAndUp,
+			}">
+			<v-col
+				cols="12"
+				sm="8"
+				md="8"
+				lg="5"
+				xl="4"
+				class="d-flex align-center px-1 pt-0 justify-center flex-column">
+				<profile-card
+					:matchedUser
+					@close="profileDialog = false" />
+			</v-col>
+		</v-container>
 	</v-dialog>
 	<v-container
 		fluid
-		class="overflow-y-auto d-flex align-center flex-column pa-0 message-container">
+		class="d-flex align-center flex-column pa-0 message-container">
 		<v-col
 			cols="12"
 			lg="6"
@@ -125,17 +132,21 @@
 </template>
 
 <script setup lang="ts">
+	import { useDisplay } from "vuetify";
+	import { useRoute, useRouter } from "vue-router";
+	import type { Chat, User, Message } from "~/types/types.global";
+
 	definePageMeta({
 		layout: "chat",
 	});
-	import { useRoute, useRouter } from "vue-router";
-	import type { Chat, User, Message } from "~/types/types.global";
+
+	const { mobile, smAndUp } = useDisplay();
 
 	// Acessa as stores
 	const authStore = useAuthStore();
 	const staticStore = useStaticStore();
 	const chatsStore = useChatsStore();
-	const profileDialog = ref(false);
+	const profileDialog = ref(true);
 	const showMessageTime = ref(false);
 	const matchedUserId = ref();
 	const route = useRoute();

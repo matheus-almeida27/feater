@@ -34,7 +34,7 @@ export const useChatsStore = defineStore("chatsStore", {
 			if (chatIndex !== -1) {
 				this.chats.splice(chatIndex, 1);
 			}
-			useStaticStore().alertSnackbar("Feat removido com sucesso");
+			useStaticStore().alertSnackbar("Feat removido com sucesso!");
 		},
 	},
 	persist: true,

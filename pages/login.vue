@@ -107,7 +107,7 @@ import { populateUsersInfo } from '../utils/helpers';
 				// Verificar se o usuário já existe
 				const existingUser = users.find((user: any) => user.username === username.value);
 				if (existingUser) {
-					staticStore.alertSnackbar("Usuário já existe. Escolha outro nome de usuário.");
+					staticStore.alertSnackbar("Nome de usuário já existe");
 					return;
 				}
 
@@ -134,11 +134,11 @@ import { populateUsersInfo } from '../utils/helpers';
 				// Verificar se o usuário existe e a senha está correta
 				const user = users.find((user: any) => user.username == username.value);
 				if (!user) {
-					staticStore.alertSnackbar("Usuário não encontrado.");
+					staticStore.alertSnackbar("Usuário não encontrado");
 					return;
 				}
 				if (user.password !== password.value) {
-					staticStore.alertSnackbar("Senha incorreta.");
+					staticStore.alertSnackbar("Senha incorreta");
 					return;
 				}
 

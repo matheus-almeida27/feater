@@ -2,25 +2,24 @@
 	<v-snackbar
 		:model-value="modelValue"
 		close-on-content-click
-		color="deep-purple accent-2"
+		rounded="xl"
+		:location="xs ? 'top center' : 'bottom center'"
+		transition="slide-y-transition"
+		color="deep-purple accent-2 d-flex justify-center"
+		variant="elevated"
 		@update:model-value="$emit('update:modelValue', $event)">
-		{{ text }}
-
-		<template v-slot:actions>
-			<v-btn
-				color="pink"
-				variant="text"
-				@click="$emit('update:modelValue', false)">
-				<v-icon color="#fff" size="small">mdi-close</v-icon>
-			</v-btn>
+		<template #default>
+			<span class="snack d-flex justify-center w-100">
+				{{ text }}
+			</span>
 		</template>
 	</v-snackbar>
 </template>
 
-<script setup>
-	import { defineProps, defineEmits } from "vue";
-
-	const props = defineProps({
+<script setup lang="ts">
+	import { useDisplay } from "vuetify";
+	const { xs } = useDisplay();
+	defineProps({
 		modelValue: {
 			type: Boolean,
 			required: true,
@@ -35,8 +34,7 @@
 </script>
 <style lang="scss" scoped>
 	.snack {
-		background-color: linear-gradient(138deg, #170015 0%, #0d000c 100%);
+		background-color: linear-gradient(138deg, #001716 0%, #0d000c 100%) !important;
 		color: #fff;
-		font-size: 3rem;
 	}
 </style>

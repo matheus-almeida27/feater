@@ -8,7 +8,8 @@
 		rounded="xl"
 		><span class="text-white"> Salvar </span>
 	</v-btn>
-	<v-card class="w-100 rounded-xl">
+	<v-card
+		class="w-100 rounded-xl overflow-y-auto">
 		<v-card-title class="pt-3 pl-5 font-weight-light text-h4 mb-2 d-flex align-center">
 			<span
 				v-if="matchedUser"
@@ -47,7 +48,7 @@
 				class="mb-4 justify-center">
 				<v-btn
 					v-if="!importedImage"
-					@click="$refs.fileInputRef.click()"
+					@click="$refs.fileInputRef?.click()"
 					block
 					variant="tonal"
 					rounded="xl"
@@ -164,6 +165,7 @@
 </template>
 
 <script setup>
+	import { useDisplay } from "vuetify";
 	const props = defineProps({
 		matchedUser: {
 			type: Object,
@@ -204,7 +206,7 @@
 	const userImage = computed(() => {
 		return (
 			importedImgUrl.value ||
-			userContext.profileImage ||
+			userContext?.profileImage ||
 			"https://media.gq.com/photos/6255cb439aa7a6f3a12583da/master/w_1600%2Cc_limit/GQ0522_Future_11.jpg"
 		);
 	});
@@ -219,7 +221,7 @@
 
 	// Função ajustada para lidar com o evento de mudança do input
 	const onFileChange = (event) => {
-		const file = event.target.files[0]; // Extrai o primeiro arquivo
+		const file = event?.target.files[0]; // Extrai o primeiro arquivo
 		if (!file) {
 			importedImgUrl.value = "";
 			return;
@@ -227,11 +229,15 @@
 		createImage(file); // Passa o arquivo diretamente, sem casting
 	};
 
+	const maxWidth = computed(() => {
+		const { sm, md, lg } = useDisplay();
+		return sm ? "100%" : md ? "80%" : "60%";
+	});
 	// Função para criar a URL da imagem
 	const createImage = async (file) => {
 		const reader = new FileReader();
 		reader.onload = (e) => {
-			importedImgUrl.value = e.target.result;
+			importedImgUrl.value = e?.target?.result;
 		};
 		reader.readAsDataURL(file);
 	};
@@ -266,7 +272,7 @@
 
 	function removeFeat() {
 		navigateTo("/messages");
-		useChatsStore().removeChat(chatId);
+		useChatsStore().removeChat(Number(chatId));
 	}
 </script>
 

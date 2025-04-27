@@ -235,9 +235,9 @@
 		matchDialog.value = true;
 		return;
 		const swipedUser = users.value.find((user) => user.id === swipedCard.id);
-		if (swipedUser?.likedUsers.includes(Number(authStore?.user?.id))) {
+		if (swipedUser?.likedUsers?.includes(Number(authStore?.user?.id))) {
 			// Lógica para o match
-			staticStore.alertSnackbar("You both liked each other!");
+			staticStore.alertSnackbar("É um feat!");
 		}
 	};
 

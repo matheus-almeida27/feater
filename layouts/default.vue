@@ -82,7 +82,7 @@
 	const onClick = (value: number | null) => {
 		if (value === null) return;
 		if (router.currentRoute.value.path == "/profile" && !validUserProfile(authStore.user)) {
-			staticStore.alertSnackbar("Você precisa completar seu perfil antes de continuar.");
+			staticStore.alertSnackbar("Você precisa completar seu perfil antes de continuar");
 			nextTick(() => {
 				navigationValue.value = 2;
 			});
