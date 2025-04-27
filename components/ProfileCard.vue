@@ -21,11 +21,10 @@
 				@click="close()"
 				icon
 				rounded="xl"
-				class="border"
 				size="small"
-				variant="elevated"
-				color="surface">
-				<v-icon class=""> mdi-chevron-down </v-icon>
+				variant="tonal"
+				color="purple-darken-2">
+				<v-icon size="20"> mdi-chevron-down </v-icon>
 			</v-btn>
 		</v-card-title>
 		<v-card-text class="pb-5 px-0">
@@ -128,7 +127,18 @@
 			</v-row>
 
 			<!-- Roles -->
+			<div
+				v-if="matchedUser"
+				class="card-genres">
+				<span
+					v-for="(role, index) in selectedRoles"
+					:key="index"
+					:class="['genre-tag mb-2 ', { 'is-favorite': isFavoriteRole(role) }]">
+					{{ role.name }}
+				</span>
+			</div>
 			<v-select
+				v-if="!matchedUser"
 				v-model="selectedRoles"
 				:items="staticStore?.roles"
 				:label="matchedUser ? '' : 'Ramos Artísticos'"
@@ -145,7 +155,18 @@
 				outlined
 				dense></v-select>
 			<!-- Gêneros Musicais (até 3 seleções) -->
+			<div
+				v-if="matchedUser"
+				class="card-genres mb-4">
+				<span
+					v-for="(genre, index) in selectedGenres"
+					:key="index"
+					:class="['genre-tag mb-2 ']">
+					{{ genre.name }}
+				</span>
+			</div>
 			<v-select
+				v-if="!matchedUser"
 				v-model="selectedGenres"
 				:items="staticStore?.genres"
 				:label="matchedUser ? '' : 'Gêneros Musicais'"
@@ -168,7 +189,7 @@
 				:matched-user
 				:blocked="Boolean(matchedUser)" />
 		</v-card-text>
-		<v-card-actions v-if="matchedUser">
+		<v-card-actions v-if="chatId">
 			<v-btn
 				block
 				color="red"
@@ -194,9 +215,11 @@
 			required: false,
 		},
 	});
+
 	const emit = defineEmits(["close"]);
 	const authStore = useAuthStore();
 	const staticStore = useStaticStore();
+	const filtersStore = useFiltersStore();
 	const chatId = useRoute().params?.chatId;
 
 	const userContext = props.matchedUser || authStore.user;
@@ -296,6 +319,12 @@
 		navigateTo("/messages");
 		useChatsStore().removeChat(Number(chatId));
 	}
+	const isFavoriteRole = (role) => {
+		return userContext?.favoriteRoles.some((r) => r.id == role.id);
+	};
+	const isFavoriteGenre = (genre) => {
+		return userContext?.favoriteGenres.some((g) => g.id == genre.id);
+	};
 </script>
 
 <style scoped lang="scss">
@@ -310,5 +339,21 @@
 		top: 4px;
 		margin-top: 10px;
 		margin-right: 10px;
+	}
+
+	.card-genres {
+		display: flex;
+		gap: 5px;
+		flex-wrap: wrap;
+		justify-content: center;
+		margin-top: 4px;
+	}
+
+	.genre-tag {
+		background: linear-gradient(176deg, #51034b 0%, #0d000c 100%);
+		padding: 5px 10px;
+		border-radius: 20px;
+		font-size: 12px;
+		backdrop-filter: blur(10px);
 	}
 </style>

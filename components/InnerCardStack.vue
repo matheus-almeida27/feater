@@ -50,22 +50,13 @@
 				no-gutters
 				class="justify-center">
 				<v-icon
-					class="my-3"
+					class="mt-1"
 					size="25"
-					>mdi-chevron-down</v-icon
+					>mdi-chevron-up</v-icon
 				>
 			</v-row>
 		</v-expand-transition>
-		<v-expand-transition>
-			<v-row
-				v-if="showBio"
-				no-gutters
-				class="justify-center">
-				<div class="d-flex justify-center align-center card-bio">
-					{{ card.bio }}
-				</div>
-			</v-row>
-		</v-expand-transition>
+
 	</div>
 </template>
 
@@ -151,7 +142,7 @@
 
 	.card-img {
 		width: 100%;
-		min-height: 250px;
+		min-height: 150px;
 		max-height: 350px;
 
 		// object-fit: cover;

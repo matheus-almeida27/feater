@@ -22,6 +22,7 @@
 			content-class="d-flex justify-center align-center">
 			<FiltersDialogContent @close="onCloseFilters" />
 		</v-dialog>
+
 		<v-scale-transition hide-on-leave>
 			<div
 				v-if="!cards.length"
@@ -48,12 +49,37 @@
 				<div
 					v-if="index === 0"
 					class="d-flex w-100 justify-center align-center">
-					
 					<InnerCardStack
 						id="innerCardRef"
 						@click="toggleBio()"
 						:card
 						:show-bio />
+					<v-dialog
+						v-model="showBio"
+						transition="dialog-bottom-transition"
+						:content-class="'bg-surface fill-height justify-center align-center'"
+						class="justify-center align-center"
+						fullscreen>
+						<v-container
+							v-if="index === 0"
+							fluid
+							class="d-flex align-center flex-column pa-0 fill-height overflow-y-scroll"
+							:class="{
+								'justify-center': smAndUp,
+							}">
+							<v-col
+								cols="12"
+								sm="8"
+								md="8"
+								lg="5"
+								xl="4"
+								class="d-flex align-center px-1 pt-0 justify-center flex-column">
+								<profile-card
+									:matchedUser="card"
+									@close="showBio = false" />
+							</v-col>
+						</v-container>
+					</v-dialog>
 				</div>
 			</v-expand-transition>
 		</div>
@@ -62,15 +88,18 @@
 
 <script setup lang="ts">
 	import type { Genre, Role, User } from "~/types/types.global";
+	import { useDisplay } from "vuetify";
 
 	const emit = defineEmits(["swipe"]);
 
+	const { smAndUp } = useDisplay();
 	const staticStore = useStaticStore();
 	const authStore = useAuthStore();
 	const chatsStore = useChatsStore();
 	const filtersStore = useFiltersStore();
 	const users = ref(staticStore.users);
 	const showBio = ref(false);
+	const profileDialog = ref(false);
 
 	const filteredUsers = computed(() => {
 		const currentUser = authStore.user;

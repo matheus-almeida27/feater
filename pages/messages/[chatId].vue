@@ -124,9 +124,23 @@
 				height="30"
 				hide-details
 				color="purple-darken-3"
-				@keyup.enter="sendMessage"
-				append-inner-icon="mdi-send"
-				@click:append-inner="sendMessage"></v-text-field>
+				@keyup.enter="sendMessage">
+				<template #append>
+					<!-- <v-btn
+						icon
+						size="sm" class="pa-2"> -->
+					<div
+						@click="sendMessage"
+						class="d-flex pa-2 rounded-circle bg-purple">
+						<v-icon
+							size="23"
+							color="#fff"
+							>mdi-send</v-icon
+						>
+					</div>
+					<!-- </v-btn> -->
+				</template></v-text-field
+			>
 		</div>
 	</v-bottom-navigation>
 </template>
