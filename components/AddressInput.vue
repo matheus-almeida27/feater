@@ -28,9 +28,20 @@
 				class="ma-0 pa-0"
 				v-if="address">
 				<span
-				style="font-size: 1rem;"
+					style="font-size: 1rem"
 					class="text-truncate d-flex justify-center font-weight-light">
 					{{ formatedAddress }}
+				</span>
+				<span
+					v-if="props.blocked"
+					style="font-size: 0.8rem"
+					class="text-truncate d-flex text-purple-accent-2 justify-center mt-2 font-weight-light">
+					<v-icon
+						size="20"
+						class="mr-1 mt-n1">
+						mdi-airplane
+					</v-icon>
+					{{ getKmsAway(matchedUser) }}
 				</span>
 				<v-btn
 					v-if="!props.blocked"
@@ -51,6 +62,10 @@
 	const emit = defineEmits(["updateLocation"]);
 	const props = defineProps({
 		location: {
+			type: Object,
+			default: () => ({}),
+		},
+		matchedUser: {
 			type: Object,
 			default: () => ({}),
 		},

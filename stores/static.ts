@@ -480,7 +480,7 @@ export const useStaticStore = defineStore("static", {
 				username: "thiago.santos",
 				password: "1",
 				profileImage:
-					"https://images.unsplash.com/photo-1519085360753-afccb0a1f906?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60",
+					"https://miro.medium.com/v2/resize:fit:1000/1*pFD3HJqEKdoBpWczAHxmYg.jpeg",
 				bio: "",
 				favoriteRoles: [],
 				favoriteGenres: [],

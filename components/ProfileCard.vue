@@ -8,8 +8,7 @@
 		rounded="xl"
 		><span class="text-white"> Salvar </span>
 	</v-btn>
-	<v-card
-		class="w-100 rounded-xl overflow-y-auto">
+	<v-card class="w-100 rounded-xl overflow-y-auto">
 		<v-card-title class="pt-3 pl-5 font-weight-light text-h4 mb-2 d-flex align-center">
 			<span
 				v-if="matchedUser"
@@ -84,27 +83,49 @@
 					prepend-icon=""></v-file-input>
 			</v-row>
 			<!-- Nome do Usuário -->
-			<v-text-field
-				v-model="userFullName"
-				:readonly="!!matchedUser"
-				variant="solo"
-				:label="matchedUser ? '' : 'Nome'"
-				rounded="xl"
-				class="mb-3"
-				hide-details
-				outlined
-				dense></v-text-field>
+			<v-row
+				no-gutters
+				class="mb-4">
+				<span
+					v-if="matchedUser"
+					style="font-size: 1.4rem"
+					class="d-flex justify-center text-center w-100">
+					{{ userFullName }}
+				</span>
+				<v-text-field
+					v-else
+					v-model="userFullName"
+					:readonly="!!matchedUser"
+					variant="solo"
+					:label="matchedUser ? '' : 'Nome'"
+					rounded="xl"
+					class="mb-3"
+					hide-details
+					outlined
+					dense></v-text-field>
+			</v-row>
 			<!-- Biografia -->
-			<v-textarea
-				:label="matchedUser ? '' : 'Biografia'"
-				rounded="xl"
-				v-model="bio"
-				:rules="[(v) => v.length <= 200 || 'Máximo: 200 caracteres']"
-				auto-grow
-				:readonly="!!matchedUser"
-				variant="solo"
-				rows="3"
-				outlined></v-textarea>
+			<v-row
+				no-gutters
+				class="mb-4">
+				<span
+					v-if="matchedUser"
+					style="font-size: 1rem"
+					class="d-flex text-center font-weight-light">
+					{{ bio }}
+				</span>
+				<v-textarea
+					v-else
+					:label="matchedUser ? '' : 'Biografia'"
+					rounded="xl"
+					v-model="bio"
+					:rules="[(v) => v.length <= 200 || 'Máximo: 200 caracteres']"
+					auto-grow
+					:readonly="!!matchedUser"
+					variant="solo"
+					rows="3"
+					outlined></v-textarea>
+			</v-row>
 
 			<!-- Roles -->
 			<v-select
@@ -144,6 +165,7 @@
 			<AddressInput
 				@updateLocation="updateLocation"
 				:location
+				:matched-user
 				:blocked="Boolean(matchedUser)" />
 		</v-card-text>
 		<v-card-actions v-if="matchedUser">

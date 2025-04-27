@@ -140,13 +140,13 @@
 		layout: "chat",
 	});
 
-	const { mobile, smAndUp } = useDisplay();
+	const { smAndUp } = useDisplay();
 
 	// Acessa as stores
 	const authStore = useAuthStore();
 	const staticStore = useStaticStore();
 	const chatsStore = useChatsStore();
-	const profileDialog = ref(true);
+	const profileDialog = ref(false);
 	const showMessageTime = ref(false);
 	const matchedUserId = ref();
 	const route = useRoute();

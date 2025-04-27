@@ -10,7 +10,7 @@
 				class="card-img" />
 			<p class="card-name">{{ card.name }}</p>
 			<p class="card-address font-weight-regular">{{ card.location.address }}</p>
-			<p class="card-address font-weight-light mt-1 mb-2">
+			<p class="card-address text-purple-accent-2 font-weight-light mt-1 mb-2">
 				<v-icon
 					size="20"
 					class="mr-1 mt-n1">
@@ -105,35 +105,7 @@
 		return filtersStore?.genres.some((g: any) => g.id == genre.id);
 	};
 
-	const kmsAway = computed(() => {
-		//calcula a distância entre o usuário e o card basado na localização longitude e latitude
-		if (props.card.location && props.card.location.latitude && props.card.location.longitude) {
-			const userLocation = user?.location;
-			if (userLocation) {
-				const distance = calculateDistance(
-					userLocation.latitude,
-					userLocation.longitude,
-					props.card.location.latitude,
-					props.card.location.longitude,
-				);
-				return `${distance.toFixed(0)} km de você`;
-			}
-		}
-		return "";
-	});
-	const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
-		const R = 6371; // Raio da Terra em km
-		const dLat = ((lat2 - lat1) * Math.PI) / 180;
-		const dLon = ((lon2 - lon1) * Math.PI) / 180;
-		const a =
-			Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-			Math.cos((lat1 * Math.PI) / 180) *
-				Math.cos((lat2 * Math.PI) / 180) *
-				Math.sin(dLon / 2) *
-				Math.sin(dLon / 2);
-		const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-		return R * c; // Distância em km
-	};
+	const kmsAway = getKmsAway(props.card);
 </script>
 
 <style lang="scss" scoped>
