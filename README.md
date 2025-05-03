@@ -1,75 +1,91 @@
-# Nuxt Minimal Starter
+# Feater App
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Feater é um aplicativo web que facilita a colaboração entre artistas e beatmakers independentes, permitindo conexões baseadas em localização geográfica e preferências musicais. Inspirado em mecânicas de “match” (like/dislike), o Feater oferece um fluxo simples e intuitivo para encontrar parceiros criativos.
 
-## Setup
+🔗 **Demo online:** https://matheus-almeida27.github.io/feater
 
-Make sure to install dependencies:
+---
 
-```bash
-# npm
-npm install
+## 🛠️ Tecnologias
 
-# pnpm
-pnpm install
+- **Vue 3** – Interface reativa e componentes modulares  
+- **Nuxt 3** – Roteamento, geração de páginas estáticas e otimização de performance  
+- **Vuetify** – Componentes Material Design para UI consistente  
+- **Pinia** – Gerenciamento de estado global  
+- **LocalStorage** – Persistência de dados no navegador (usuários, matches, mensagens)
 
-# yarn
-yarn install
+---
 
-# bun
-bun install
-```
+## 🚀 Como usar
 
-## Development Server
+1. **Acesse o app**  
+   Abra o link do demo ou clone este repositório e execute localmente (veja instalação abaixo).
 
-Start the development server on `http://localhost:3000`:
+2. **Cadastro / Login**  
+   - Na primeira visita, clique em “Cadastrar” e preencha seus dados (nome, função, gêneros, foto).  
+   - Depois, use “Login” para entrar com seu perfil salvo em `localStorage`.
 
-```bash
-# npm
-npm run dev
+3. **Explorar perfis**  
+   - Após o login, você verá uma pilha de perfis.  
+   - Deslize o card para a direita para “like” ❤️ ou esquerda para “dislike” ❌ para avaliar cada perfil.  
+   - Caso receba um like de alguém que você já curtiu, um **match** será criado!
 
-# pnpm
-pnpm dev
+4. **Filtrar por gênero**  
+   - No topo da tela, selecione um ou mais gêneros musicais para ajustar as sugestões.
 
-# yarn
-yarn dev
+5. **Chat**  
+   - Ao ter um match, acesse a aba de “Mensagens”.  
+   - Envie e receba mensagens em tempo real (persistidas no `localStorage`).
 
-# bun
-bun run dev
-```
+6. **Editar perfil**  
+   - Acesse sua conta e clique em “Editar Perfil” para atualizar foto, biografia, gêneros ou outros dados.
 
-## Production
+7. **Persistência**  
+   - Todas as interações (likes, matches, mensagens) são salvas no `localStorage`.  
+   - Mesmo que a página seja recarregada, seus dados permanecem intactos.
 
-Build the application for production:
+---
 
-```bash
-# npm
-npm run build
+## 📥 Instalação Local
 
-# pnpm
-pnpm build
+1. **Clone o repositório**  
+   ```bash
+   git clone https://github.com/matheus-almeida27/feater.git
+   cd feater
+   ```
 
-# yarn
-yarn build
+2. **Instale as dependências**  
+   ```bash
+   npm install
+   # ou
+   yarn install
+   ```
 
-# bun
-bun run build
-```
+3. **Execute em modo de desenvolvimento**  
+   ```bash
+   npm run dev
+   # ou
+   yarn dev
+   ```
 
-Locally preview production build:
+4. **Acesse**  
+   Abra `http://localhost:3000` no seu navegador.
 
-```bash
-# npm
-npm run preview
+---
 
-# pnpm
-pnpm preview
 
-# yarn
-yarn preview
+## 🤝 Contribuição
 
-# bun
-bun run preview
-```
+1. Faça um fork deste repositório  
+2. Crie uma branch para sua feature: `git checkout -b feature/nome-da-feature`  
+3. Faça commits das suas mudanças: `git commit -m "Descrição da mudança"`  
+4. Envie para sua branch: `git push origin feature/nome-da-feature`  
+5. Abra um Pull Request
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+---
+
+## ✉️ Contato
+
+- Matheus Fontoura de Almeida  
+- GitHub: [@matheus-almeida27](https://github.com/matheus-almeida27)  
+- E-mail: matheus.fdealmeida27072000@gmail.com
